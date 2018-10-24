@@ -1,5 +1,7 @@
 package visrec.ri.spi;
 
+import visrec.ri.ml.classification.DefaultClassifierBuilder;
+
 import javax.visrec.ml.classification.ClassifierBuilder;
 import javax.visrec.spi.BuilderService;
 
@@ -13,6 +15,6 @@ public final class DefaultBuilderService implements BuilderService {
      */
     @Override
     public ClassifierBuilder newClassifierBuilder() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return new DefaultClassifierBuilder();
     }
 }
