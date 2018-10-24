@@ -2,5 +2,5 @@
 *.iml
 .gradle/
 gradle/
-*/build/**
-*/target/**
+build/**
+target/**
