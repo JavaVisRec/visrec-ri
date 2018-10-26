@@ -7,12 +7,26 @@ jdk:
   - openjdk11
 
 stages:
-  - build
-  - test
+  - build-oraclejdk8
+  - build-oraclejdk11
+  - build-openjdk8
+  - build-openjdk11
 
 jobs:
   include:
-    - stage: build
-      script: mvn compile -DskipTests=true -B
-    - stage: test
-      script: mvn test -B
+    - stage: build-oraclejdk8
+          script:
+            - jdk_switcher use oraclejdk8
+            - mvn compile
+    - stage: build-oraclejdk11
+          script:
+            - jdk_switcher use oraclejdk11
+            - mvn compile
+    - stage: build-openjdk8
+          script:
+            - jdk_switcher use openjdk8
+            - mvn compile
+    - stage: build-openjdk11
+          script:
+            - jdk_switcher use openjdk11
+            - mvn compile
