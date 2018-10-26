@@ -6,6 +6,10 @@ jdk:
   - openjdk8
   - openjdk11
 
+stages:
+  - build
+  - test
+
 jobs:
   include:
     - stage: build
