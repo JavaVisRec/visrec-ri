@@ -17,9 +17,11 @@ jdk:
   - openjdk8
   - openjdk11
 
-install: mvn install -P !build-extras -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-script: mvn test -P !build-extras -B
+before-install: ./travis/before-install.sh
+install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+script: mvn test -B
 
-after_success:
-  - ./travis/before-deploy.sh
-  - ./travis/deploy.sh
+jobs:
+  include:
+    - stage: deploy
+      script: ./travis/deploy.sh
