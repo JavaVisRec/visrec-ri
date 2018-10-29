@@ -15,8 +15,7 @@ jdk:
 - openjdk8
 - openjdk11
 before_install:
-- openssl aes-256-cbc -K $encrypted_3ed83aec37b2_key -iv $encrypted_3ed83aec37b2_iv
-  -in codesigning.asc.enc -out travis\\codesigning.asc -d
+- openssl aes-256-cbc -K $encrypted_4e35b849d0e1_key -iv $encrypted_4e35b849d0e1_iv -in codesigning.asc.enc -out travis/codesigning.asc -d
 - gpg --fast-import travis/codesigning.asc
 install:
 - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
