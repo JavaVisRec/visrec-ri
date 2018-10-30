@@ -23,5 +23,5 @@ script: mvn test -B
 jobs:
   include:
   - stage: deploy
-    script: "./travis/deploy.sh"
+    script: mvn deploy -P sign,build-extras --settings travis/settings.xml
 
