@@ -25,7 +25,7 @@ public final class DefaultServiceProvider extends ServiceProvider {
      */
     @Override
     public ClassifierService getClassifierService() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return new DefaultClassifierService();
     }
 
     /**
@@ -34,7 +34,7 @@ public final class DefaultServiceProvider extends ServiceProvider {
      */
     @Override
     public ImageFactoryService getImageFactoryService() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return new DefaultImageFactoryService();
     }
 
 }
