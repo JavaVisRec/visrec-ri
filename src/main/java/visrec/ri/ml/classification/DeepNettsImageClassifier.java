@@ -3,7 +3,6 @@ package visrec.ri.ml.classification;
 import deepnetts.data.ExampleImage;
 import deepnetts.data.ImageSet;
 import deepnetts.net.ConvolutionalNetwork;
-import deepnetts.net.NeuralNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.layers.SoftmaxOutputLayer;
 import deepnetts.net.loss.CrossEntropyLoss;
@@ -20,7 +19,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.visrec.AbstractImageClassifier;
-import javax.visrec.ml.classification.Classifier;
 import javax.visrec.util.VisRec;
 
 /**
@@ -84,8 +82,10 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
         public DeepNettsImageClassifier build() {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
-
+          
         // how to specify network archittecture which is a graph abesed model?
+        //use json object? specific Configuration? it has to be graph ike structure
+        // json file or json object or cprecific configuration
         @Override
         public DeepNettsImageClassifier build(Properties prop) {
             int imageWidth = Integer.parseInt(prop.getProperty(VisRec.IMAGE_WIDTH));

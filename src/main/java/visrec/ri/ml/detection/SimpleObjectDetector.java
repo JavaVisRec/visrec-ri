@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.visrec.AbstractImageClassifier;
-import javax.visrec.ml.classification.BoundingBox;
+import javax.visrec.util.BoundingBox;
 
 /**
  *

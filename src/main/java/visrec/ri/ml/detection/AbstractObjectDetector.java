@@ -2,7 +2,7 @@ package visrec.ri.ml.detection;
 
 import javax.visrec.AbstractImageClassifier;
 import javax.visrec.ml.detection.ObjectDetector;
-import javax.visrec.ml.classification.BoundingBox;
+import javax.visrec.util.BoundingBox;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
