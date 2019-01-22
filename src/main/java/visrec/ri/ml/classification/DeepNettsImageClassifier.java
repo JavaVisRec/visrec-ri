@@ -7,7 +7,7 @@ import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.layers.SoftmaxOutputLayer;
 import deepnetts.net.loss.CrossEntropyLoss;
 import deepnetts.net.train.BackpropagationTrainer;
-import deepnetts.net.train.opt.OptimizerType;
+import deepnetts.net.train.OptimizerType;
 import deepnetts.util.DeepNettsException;
 import deepnetts.util.FileIO;
 import java.awt.image.BufferedImage;
@@ -74,6 +74,10 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
         return inputHeight;
     }
     
+    public static javax.visrec.util.Builder<DeepNettsImageClassifier> builder() {
+        return new Builder();
+    }
+    
     public static class Builder implements javax.visrec.util.Builder<DeepNettsImageClassifier> {
 
         DeepNettsImageClassifier dnImgClassifier = new DeepNettsImageClassifier();
@@ -123,18 +127,20 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
 //        } catch (IOException ex) {
 //            Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+
+            //get architecture from json instead of this hardcoding
             ConvolutionalNetwork neuralNet = new ConvolutionalNetwork.Builder()
                     .addInputLayer(imageWidth, imageHeight, 3)
                     .addConvolutionalLayer(5, 5, 3, ActivationType.RELU)
                     .addMaxPoolingLayer(2, 2, 2)
                     .addConvolutionalLayer(3, 3, 6, ActivationType.RELU)
                     .addMaxPoolingLayer(2, 2, 2)
-                    // TODO Kevin to Zoran: "I can't find these methods in DeepNetts."
-                    //                .addDenseLayer(30, ActivationType.RELU)
-                    //                .addDenseLayer(20, ActivationType.RELU)
+                    // TODO Kevin to Zoran: "I can't find these methods in DeepNetts." Zoran: There are here now
+                    .addDenseLayer(30, ActivationType.RELU)
+                    .addDenseLayer(20, ActivationType.RELU)
                     .addOutputLayer(classCount, SoftmaxOutputLayer.class)
-                    .withLossFunction(CrossEntropyLoss.class)
-                    .withRandomSeed(123)
+                    .lossFunction(CrossEntropyLoss.class)
+                    .randomSeed(123)
                     .build();
 
             LOGGER.info("Done!");
@@ -151,13 +157,13 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
                     .setOptimizer(OptimizerType.MOMENTUM);
             trainer.train(neuralNet, imageSet);
 
-            setModel(dnImgClassifier);
+            dnImgClassifier.setModel(neuralNet);
 
-            try {
-                FileIO.writeToFile(neuralNet, modelFile);
-            } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            try {
+//                FileIO.writeToFile(neuralNet, modelFile);
+//            } catch (IOException ex) {
+//                java.util.logging.Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
+//            }
 
             return dnImgClassifier;
 
