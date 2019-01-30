@@ -135,7 +135,6 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
                     .addMaxPoolingLayer(2, 2, 2)
                     .addConvolutionalLayer(3, 3, 6, ActivationType.RELU)
                     .addMaxPoolingLayer(2, 2, 2)
-                    // TODO Kevin to Zoran: "I can't find these methods in DeepNetts." Zoran: There are here now
                     .addDenseLayer(30, ActivationType.RELU)
                     .addDenseLayer(20, ActivationType.RELU)
                     .addOutputLayer(classCount, SoftmaxOutputLayer.class)
