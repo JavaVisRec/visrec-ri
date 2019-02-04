@@ -1,40 +1,35 @@
 package visrec.ri.spi;
 
-import javax.visrec.spi.BuilderService;
-import javax.visrec.spi.ClassifierService;
-import javax.visrec.spi.ImageFactoryService;
-import javax.visrec.spi.ServiceProvider;
+import javax.visrec.spi.*;
 
 /**
+ * Default {@link ServiceProvider} of the implementation of the visual recognition API
  * @author Kevin Berendsen
  */
 public final class DefaultServiceProvider extends ServiceProvider {
 
-    /**
-     * Get the {@link BuilderService}
-     * @return {@link BuilderService}
-     */
+    /** {@inheritDoc} */
     @Override
     public BuilderService getBuilderService() {
         return new DefaultBuilderService();
     }
 
-    /**
-     * Get the {@link ClassifierService}
-     * @return {@link ClassifierService}
-     */
+    /** {@inheritDoc} */
     @Override
     public ClassifierService getClassifierService() {
         return new DefaultClassifierService();
     }
 
-    /**
-     * Get the {@link ImageFactoryService}
-     * @return {@link ImageFactoryService}
-     */
+    /** {@inheritDoc} */
     @Override
     public ImageFactoryService getImageFactoryService() {
         return new DefaultImageFactoryService();
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public ImplementationService getImplementationService() {
+        return new DeepNettsImplementationService();
     }
 
 }
