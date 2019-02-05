@@ -8,43 +8,65 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
- * missing image to search in
+ * Abstract object detector which implements {@link ObjectDetector} to return the positions
+ * of an object within the given image.
  *
- * @author Zoran Sevarac <zoran.sevarac@deepnetts.com>
+ * @author Zoran Sevarac
  */
 public abstract class AbstractObjectDetector<IMAGE_CLASS> implements ObjectDetector<IMAGE_CLASS> {
 
-    AbstractImageClassifier<IMAGE_CLASS, Boolean> imageClassifier; // This should be binary classifier, that can detectObject some object / image
+    private AbstractImageClassifier<IMAGE_CLASS, Boolean> imageClassifier; // This should be binary classifier, that can detectObject some object / image
 
+    /**
+     * Creates an instance of the object detector
+     * @param imageClassifier A {@link AbstractImageClassifier} which may not be null
+     */
     public AbstractObjectDetector(AbstractImageClassifier<IMAGE_CLASS, Boolean> imageClassifier) {
+        Objects.requireNonNull(imageClassifier, "A classifier is required for the object detector.");
         this.imageClassifier = imageClassifier;
     }
 
     /**
      * Scan entire image and return positions where object is detected
      *
-     * @param image
-     * @return
+     * @param image {@code IMAGE_CLASS} image
+     * @return {@code Map} of {@link BoundingBox} of where the object
+     * has been detected.
      */
     @Override
     public abstract Map<String, List<BoundingBox>> detectObject(IMAGE_CLASS image);
 
+    /**
+     * Detect the object based on the given {@code File}.
+     * @param file Image file.
+     * @return {@code Map} of {@link BoundingBox} of where the object
+     * has been detected.
+     * @throws IOException if the image couldn't be retrieved from storage.
+     */
     public Map<String, List<BoundingBox>> detect(File file) throws IOException {
         IMAGE_CLASS image = imageClassifier.getImageFactory().getImage(file);
         return detectObject(image);
     }
 
+    /**
+     * Detect the object based on the given {@code InputStream}.
+     * @param inStream {@code InputStream} of the image
+     * @return {@code Map} of {@link BoundingBox} of where the object
+     * has been detected.
+     * @throws IOException if the image couldn't be retrieved from storage.
+     */
     public Map<String, List<BoundingBox>> detect(InputStream inStream) throws IOException {
         IMAGE_CLASS image = imageClassifier.getImageFactory().getImage(inStream);
         return detectObject(image);
     }
 
     /**
-     * Subclasses should use ths method to use the inderlying image classifier
+     * Subclasses should use ths method to use the underlying image classifier
      *
-     * @return
+     * @return configured {@link AbstractImageClassifier} of the {@link AbstractObjectDetector}
      */
     public AbstractImageClassifier<IMAGE_CLASS, Boolean> getImageClassifier() {
         return imageClassifier;

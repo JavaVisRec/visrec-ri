@@ -8,13 +8,18 @@ import javax.visrec.AbstractImageClassifier;
 import javax.visrec.util.BoundingBox;
 
 /**
+ * A simple object detector
  *
- * @author Zoran Sevarac <zoran.sevarac@deepnetts.com>
+ * @author Zoran Sevarac
  */
 public class SimpleObjectDetector extends AbstractObjectDetector<BufferedImage> {
 
     private double threshold = 0.5;
 
+    /**
+     * Creates an instance
+     * @param classifier A {@link AbstractImageClassifier} which may not be null
+     */
     public SimpleObjectDetector(AbstractImageClassifier<BufferedImage, Boolean> classifier) {
         super(classifier);
     }
@@ -27,8 +32,9 @@ public class SimpleObjectDetector extends AbstractObjectDetector<BufferedImage> 
      * classifier to each position This is trivial implementation and should be
      * replaced with something better
      *
-     * @param image
-     * @return
+     * @param image {@code BufferedImage} to scan
+     * @return A {@code Map} of {@link BoundingBox} which contain
+     * the positions of the detected object.
      */
     @Override
     public Map<String, List<BoundingBox>> detectObject(BufferedImage image) {
@@ -52,10 +58,18 @@ public class SimpleObjectDetector extends AbstractObjectDetector<BufferedImage> 
         return results;
     }
 
+    /**
+     * Get the threshold
+     * @return theshold as {@code double}
+     */
     public double getThreshold() {
         return threshold;
     }
 
+    /**
+     * Set the threshold
+     * @param threshold as {@code double}
+     */
     public void setThreshold(double threshold) {
         this.threshold = threshold;
     }
