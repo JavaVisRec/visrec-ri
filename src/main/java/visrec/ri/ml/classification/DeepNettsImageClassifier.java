@@ -7,7 +7,7 @@ import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.layers.SoftmaxOutputLayer;
 import deepnetts.net.loss.CrossEntropyLoss;
 import deepnetts.net.train.BackpropagationTrainer;
-import deepnetts.net.train.OptimizerType;
+import deepnetts.net.train.opt.OptimizerType;
 import deepnetts.util.DeepNettsException;
 import deepnetts.util.FileIO;
 import java.awt.image.BufferedImage;
@@ -19,7 +19,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.visrec.AbstractImageClassifier;
-import javax.visrec.util.VisRec;
+import javax.visrec.util.VisRecConstants;
 
 /**
  * TODO: Traffic sign recognition healhcare - skin, radiology caner for bone -
@@ -36,7 +36,7 @@ import javax.visrec.util.VisRec;
  * FOR BUILDING INTERNAL MODEL? WE SHOULD BE ABLE TO DO BOTH: incejt model or
  * build internal model using standard, or customized settings
  *
- * @author Zoran Sevarac <zoran.sevarac@deepnetts.com>
+ * @author Zoran Sevarac zoran.sevarac@deepnetts.com
  */
 public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedImage, ConvolutionalNetwork> {
 
@@ -73,33 +73,31 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
     public int getInputHeight() {
         return inputHeight;
     }
-    
+
     public static javax.visrec.util.Builder<DeepNettsImageClassifier> builder() {
         return new Builder();
     }
-    
+
     public static class Builder implements javax.visrec.util.Builder<DeepNettsImageClassifier> {
 
         DeepNettsImageClassifier dnImgClassifier = new DeepNettsImageClassifier();
-        
+
         @Override
         public DeepNettsImageClassifier build() {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
-          
-        // how to specify network archittecture which is a graph abesed model?
-        //use json object? specific Configuration? it has to be graph ike structure
-        // json file or json object or cprecific configuration
-        @Override
-        public DeepNettsImageClassifier build(Properties prop) {
-            int imageWidth = Integer.parseInt(prop.getProperty(VisRec.IMAGE_WIDTH));
-            int imageHeight = Integer.parseInt(prop.getProperty(VisRec.IMAGE_HEIGHT));
-            String labelsFile = prop.getProperty(VisRec.LABELS_FILE);
-            String trainingFile = prop.getProperty(VisRec.TRAINING_FILE);
-            float maxError = Float.parseFloat(prop.getProperty(VisRec.SGD_MAX_ERROR));
-            float learningRate = Float.parseFloat(prop.getProperty(VisRec.SGD_LEARNING_RATE));
 
-            String modelFile = prop.getProperty("visrec.model.saveToFile");
+        // how to specify network archittecture which is a graph based model? use json object
+        @Override
+        public DeepNettsImageClassifier build(Map prop) {
+            int imageWidth = Integer.parseInt(prop.get(VisRecConstants.IMAGE_WIDTH).toString());
+            int imageHeight = Integer.parseInt(prop.get(VisRecConstants.IMAGE_HEIGHT).toString());
+            String labelsFile = prop.get(VisRecConstants.LABELS_FILE).toString();
+            String trainingFile = prop.get(VisRecConstants.TRAINING_FILE).toString();
+            float maxError = Float.parseFloat(prop.get(VisRecConstants.SGD_MAX_ERROR).toString());
+            float learningRate = Float.parseFloat(prop.get(VisRecConstants.SGD_LEARNING_RATE).toString());
+
+            String modelFile = prop.get("visrec.model.saveToFile").toString();
 
             ImageSet imageSet = new ImageSet(imageWidth, imageHeight);
             LOGGER.info("Loading images...");
@@ -135,9 +133,8 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
                     .addMaxPoolingLayer(2, 2, 2)
                     .addConvolutionalLayer(3, 3, 6, ActivationType.RELU)
                     .addMaxPoolingLayer(2, 2, 2)
-                    // TODO Kevin to Zoran: "I can't find these methods in DeepNetts." Zoran: There are here now
-                    .addDenseLayer(30, ActivationType.RELU)
-                    .addDenseLayer(20, ActivationType.RELU)
+                    .addFullyConnectedLayer(30, ActivationType.RELU)
+                    .addFullyConnectedLayer(20, ActivationType.RELU)
                     .addOutputLayer(classCount, SoftmaxOutputLayer.class)
                     .lossFunction(CrossEntropyLoss.class)
                     .randomSeed(123)
@@ -149,13 +146,13 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
             neuralNet.setOutputLabels(imageSet.getOutputLabels());
 
             // create a set of convolutional networks and do training, crossvalidation and performance evaluation
-            BackpropagationTrainer trainer = new BackpropagationTrainer();
+            BackpropagationTrainer trainer = new BackpropagationTrainer(neuralNet);
             trainer.setLearningRate(learningRate)
                     .setMomentum(0.7f)
                     .setMaxError(maxError)
                     .setBatchMode(false)
                     .setOptimizer(OptimizerType.MOMENTUM);
-            trainer.train(neuralNet, imageSet);
+            trainer.train(imageSet);
 
             dnImgClassifier.setModel(neuralNet);
 

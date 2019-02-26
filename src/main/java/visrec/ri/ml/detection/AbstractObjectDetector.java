@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * missing image to search in
  *
- * @author Zoran Sevarac <zoran.sevarac@deepnetts.com>
+ * @author Zoran Sevarac zoran.sevarac@deepnetts.com
  */
 public abstract class AbstractObjectDetector<IMAGE_CLASS> implements ObjectDetector<IMAGE_CLASS> {
 
@@ -25,7 +25,7 @@ public abstract class AbstractObjectDetector<IMAGE_CLASS> implements ObjectDetec
     /**
      * Scan entire image and return positions where object is detected
      *
-     * @param image
+     * @param image image to scan for objects
      * @return
      */
     @Override
@@ -44,7 +44,7 @@ public abstract class AbstractObjectDetector<IMAGE_CLASS> implements ObjectDetec
     /**
      * Subclasses should use ths method to use the inderlying image classifier
      *
-     * @return
+     * @return returns classifier used for detection
      */
     public AbstractImageClassifier<IMAGE_CLASS, Boolean> getImageClassifier() {
         return imageClassifier;

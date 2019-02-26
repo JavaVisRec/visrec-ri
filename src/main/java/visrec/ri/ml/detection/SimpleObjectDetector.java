@@ -9,7 +9,7 @@ import javax.visrec.util.BoundingBox;
 
 /**
  *
- * @author Zoran Sevarac <zoran.sevarac@deepnetts.com>
+ * @author Zoran Sevarac zoran.sevarac@deepnetts.com
  */
 public class SimpleObjectDetector extends AbstractObjectDetector<BufferedImage> {
 

@@ -3,6 +3,7 @@ package visrec.ri.spi;
 import javax.visrec.spi.BuilderService;
 import javax.visrec.spi.ClassifierService;
 import javax.visrec.spi.ImageFactoryService;
+import javax.visrec.spi.ImplementationService;
 import javax.visrec.spi.ServiceProvider;
 
 /**
@@ -35,6 +36,11 @@ public final class DefaultServiceProvider extends ServiceProvider {
     @Override
     public ImageFactoryService getImageFactoryService() {
         return new DefaultImageFactoryService();
+    }
+
+    @Override
+    public ImplementationService getImplementationService() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
