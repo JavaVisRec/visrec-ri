@@ -36,7 +36,7 @@ import javax.visrec.util.VisRecConstants;
  * FOR BUILDING INTERNAL MODEL? WE SHOULD BE ABLE TO DO BOTH: incejt model or
  * build internal model using standard, or customized settings
  *
- * @author Zoran Sevarac zoran.sevarac@deepnetts.com
+ * @author Zoran Sevarac
  */
 public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedImage, ConvolutionalNetwork> {
 

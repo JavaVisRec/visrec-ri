@@ -4,6 +4,7 @@ import javax.visrec.ml.classification.Classifier;
 import javax.visrec.ml.classification.ClassifierBuilder;
 
 /**
+ * Default implementation of the {@link ClassifierBuilder}
  * @author Kevin Berendsen
  */
 public final class DefaultClassifierBuilder extends ClassifierBuilder {
