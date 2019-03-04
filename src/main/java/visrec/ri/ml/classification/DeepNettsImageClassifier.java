@@ -3,23 +3,22 @@ package visrec.ri.ml.classification;
 import deepnetts.data.ExampleImage;
 import deepnetts.data.ImageSet;
 import deepnetts.net.ConvolutionalNetwork;
-import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.layers.SoftmaxOutputLayer;
+import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.CrossEntropyLoss;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.net.train.OptimizerType;
 import deepnetts.util.DeepNettsException;
-import deepnetts.util.FileIO;
+
+import javax.visrec.AbstractImageClassifier;
+import javax.visrec.util.VisRecConstants;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.visrec.AbstractImageClassifier;
-import javax.visrec.util.VisRec;
 
 /**
  * TODO: Traffic sign recognition healhcare - skin, radiology caner for bone -
@@ -91,15 +90,15 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
         //use json object? specific Configuration? it has to be graph ike structure
         // json file or json object or cprecific configuration
         @Override
-        public DeepNettsImageClassifier build(Properties prop) {
-            int imageWidth = Integer.parseInt(prop.getProperty(VisRec.IMAGE_WIDTH));
-            int imageHeight = Integer.parseInt(prop.getProperty(VisRec.IMAGE_HEIGHT));
-            String labelsFile = prop.getProperty(VisRec.LABELS_FILE);
-            String trainingFile = prop.getProperty(VisRec.TRAINING_FILE);
-            float maxError = Float.parseFloat(prop.getProperty(VisRec.SGD_MAX_ERROR));
-            float learningRate = Float.parseFloat(prop.getProperty(VisRec.SGD_LEARNING_RATE));
+        public DeepNettsImageClassifier build(Map<String, Object> config) {
+            int imageWidth = Integer.parseInt(String.valueOf(config.get(VisRecConstants.IMAGE_WIDTH)));
+            int imageHeight = Integer.parseInt(String.valueOf(config.get(VisRecConstants.IMAGE_HEIGHT)));
+            String labelsFile = String.valueOf(config.get(VisRecConstants.LABELS_FILE));
+            String trainingFile = String.valueOf(config.get(VisRecConstants.TRAINING_FILE));
+            float maxError = Float.parseFloat(String.valueOf(config.get(VisRecConstants.SGD_MAX_ERROR)));
+            float learningRate = Float.parseFloat(String.valueOf(config.get(VisRecConstants.SGD_LEARNING_RATE)));
 
-            String modelFile = prop.getProperty("visrec.model.saveToFile");
+            String modelFile = String.valueOf(config.get("visrec.model.saveToFile"));
 
             ImageSet imageSet = new ImageSet(imageWidth, imageHeight);
             LOGGER.info("Loading images...");
