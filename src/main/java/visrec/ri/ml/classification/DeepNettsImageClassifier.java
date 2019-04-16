@@ -9,6 +9,7 @@ import deepnetts.net.loss.CrossEntropyLoss;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.net.train.opt.OptimizerType;
 import deepnetts.util.DeepNettsException;
+
 import javax.visrec.AbstractImageClassifier;
 import javax.visrec.util.VisRecConstants;
 import java.awt.image.BufferedImage;
@@ -98,7 +99,7 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
             float maxError = Float.parseFloat(String.valueOf(config.get(VisRecConstants.SGD_MAX_ERROR)));
             float learningRate = Float.parseFloat(String.valueOf(config.get(VisRecConstants.SGD_LEARNING_RATE)));
 
-             String modelFile = String.valueOf(config.get("visrec.model.saveToFile"));
+            String modelFile = String.valueOf(config.get("visrec.model.saveToFile"));
 
             ImageSet imageSet = new ImageSet(imageWidth, imageHeight);
             LOGGER.info("Loading images...");
