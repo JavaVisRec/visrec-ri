@@ -23,6 +23,6 @@ public class DeepNettsImplementationService extends ImplementationService {
     /** {@inheritDoc} */
     @Override
     public int getMinorVersion() {
-        return 0;
+        return 1;
     }
 }

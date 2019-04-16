@@ -1,13 +1,28 @@
 package visrec.ri.spi;
 
+import visrec.ri.BufferedImageImageFactory;
+
 import javax.visrec.ImageFactory;
 import javax.visrec.spi.ImageFactoryService;
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
+ * Default implementation of {@link ImageFactoryService} which serves the implementations of {@link ImageFactory}.
+ *
  * @author Kevin Berendsen
  */
 public final class DefaultImageFactoryService implements ImageFactoryService {
+
+    private static final Map<Class<?>, ImageFactory<?>> imageFactories;
+    static {
+        imageFactories = new HashMap<>();
+        imageFactories.put(BufferedImage.class, new BufferedImageImageFactory());
+    }
+
     /**
      * Get the {@link ImageFactory} by image type.
      * @param imageCls image type in {@link Class} object which is able to
@@ -18,6 +33,8 @@ public final class DefaultImageFactoryService implements ImageFactoryService {
      */
     @Override
     public <T> Optional<ImageFactory<T>> getByImageType(Class<T> imageCls) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        Objects.requireNonNull(imageCls, "imageCls == null");
+        ImageFactory<?> imageFactory = imageFactories.get(imageCls);
+        return Optional.ofNullable((ImageFactory<T>) imageFactory);
     }
 }
