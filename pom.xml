@@ -21,7 +21,6 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <!-- Test dependencies -->
         <dependency>
             <groupId>com.deepnetts</groupId>
             <artifactId>deepnetts-core-ce</artifactId>
