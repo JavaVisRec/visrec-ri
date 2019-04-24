@@ -56,52 +56,6 @@
             <version>5.1.0</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>deepnetts</groupId>
-            <artifactId>deepnetts-core-ce</artifactId>
-            <version>1.1-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-
-        <!-- Test dependencies -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>1.2.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.1.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>5.1.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Test dependencies -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>1.2.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.1.0</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>5.1.0</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <repositories>
@@ -163,7 +117,7 @@
 
     <build>
         <plugins>
-            <!-- plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.5</version>
@@ -176,7 +130,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin -->
+            </plugin>
 
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
