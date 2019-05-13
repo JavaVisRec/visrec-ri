@@ -137,7 +137,7 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
                     .addMaxPoolingLayer(2, 2, 2)
                     .addConvolutionalLayer(3, 3, 6, ActivationType.RELU)
                     .addMaxPoolingLayer(2, 2, 2)
-                    .addFullyConnectedLayer(30, ActivationType.RELU)
+              //      .addFullyConnectedLayer(30, ActivationType.RELU)
                     .addFullyConnectedLayer(20, ActivationType.RELU)
                     .addOutputLayer(classCount, SoftmaxOutputLayer.class)
                     .lossFunction(CrossEntropyLoss.class)
