@@ -106,15 +106,15 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
 
             imageSet.loadLabels(new File(labelsFile));
             try {
-                imageSet.loadImages(new File(trainingFile), true); // paths in training file should be relative
+                imageSet.loadImages(new File(trainingFile), false, 2000); // paths in training file should be relative
                 imageSet.invert();
                 imageSet.zeroMean();
                 imageSet.shuffle();
             } catch (DeepNettsException ex) {
                 java.util.logging.Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (FileNotFoundException ex) {
+            }/* catch (FileNotFoundException ex) {
                 Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            }*/
 
             int classCount = imageSet.getLabelsCount();
 
