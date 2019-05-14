@@ -9,12 +9,13 @@ import deepnetts.net.loss.CrossEntropyLoss;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.net.train.opt.OptimizerType;
 import deepnetts.util.DeepNettsException;
+import deepnetts.util.FileIO;
 
 import javax.visrec.AbstractImageClassifier;
 import javax.visrec.util.VisRecConstants;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -59,7 +60,7 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
 
         float[] outputs = neuralNet.getOutput();
 
-        for (int i = 1; i < outputs.length; i++) {
+        for (int i = 0; i < outputs.length; i++) {
             results.put(neuralNet.getOutputLabel(i), outputs[i]);
         }
 
@@ -97,18 +98,19 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
             String labelsFile = String.valueOf(config.get(VisRecConstants.LABELS_FILE));
             String trainingFile = String.valueOf(config.get(VisRecConstants.TRAINING_FILE));
             float maxError = Float.parseFloat(String.valueOf(config.get(VisRecConstants.SGD_MAX_ERROR)));
+            int maxEpochs = Integer.parseInt(String.valueOf(config.get(VisRecConstants.SGD_MAX_EPOCHS)));
             float learningRate = Float.parseFloat(String.valueOf(config.get(VisRecConstants.SGD_LEARNING_RATE)));
 
-            String modelFile = String.valueOf(config.get("visrec.model.saveToFile"));
+            String saveToFile = String.valueOf(config.get(VisRecConstants.MODEL_SAVE_TO));
 
             ImageSet imageSet = new ImageSet(imageWidth, imageHeight);
             LOGGER.info("Loading images...");
 
             imageSet.loadLabels(new File(labelsFile));
             try {
-                imageSet.loadImages(new File(trainingFile), false, 2000); // paths in training file should be relative
+                imageSet.loadImages(new File(trainingFile), false, 1000); // paths in training file should be relative
                 imageSet.invert();
-                imageSet.zeroMean();
+              //  imageSet.zeroMean();
                 imageSet.shuffle();
             } catch (DeepNettsException ex) {
                 java.util.logging.Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
@@ -121,28 +123,28 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
             LOGGER.info("Done!");
             LOGGER.info("Creating neural network...");
 
-//        String modelJsonFile = prop.getProperty("visrec.model.deepnetts");
-//        ConvolutionalNetwork neuralNet = null;
-//        try {
-//            neuralNet = FileIO.createFromJson(new File(modelJsonFile));
-//            //neuralNet.setOutputLabels(imageSet.getLabels());
-//        } catch (IOException ex) {
-//            Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        String modelJsonFile = String.valueOf(config.get("visrec.model.deepnetts"));
+        ConvolutionalNetwork neuralNet = null;
+        try {
+            neuralNet = (ConvolutionalNetwork)FileIO.createFromJson(new File(modelJsonFile));
+            neuralNet.setOutputLabels(imageSet.getOutputLabels());
+        } catch (IOException ex) {
+            Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
             //get architecture from json instead of this hardcoding
-            ConvolutionalNetwork neuralNet = new ConvolutionalNetwork.Builder()
-                    .addInputLayer(imageWidth, imageHeight, 3)
-                    .addConvolutionalLayer(5, 5, 3, ActivationType.RELU)
-                    .addMaxPoolingLayer(2, 2, 2)
-                    .addConvolutionalLayer(3, 3, 6, ActivationType.RELU)
-                    .addMaxPoolingLayer(2, 2, 2)
-              //      .addFullyConnectedLayer(30, ActivationType.RELU)
-                    .addFullyConnectedLayer(20, ActivationType.RELU)
-                    .addOutputLayer(classCount, SoftmaxOutputLayer.class)
-                    .lossFunction(CrossEntropyLoss.class)
-                    .randomSeed(123)
-                    .build();
+//            ConvolutionalNetwork neuralNet = new ConvolutionalNetwork.Builder()
+//                    .addInputLayer(imageWidth, imageHeight, 3)
+//                    .addConvolutionalLayer(5, 5, 3, ActivationType.RELU)
+//                    .addMaxPoolingLayer(2, 2, 2)
+//                    .addConvolutionalLayer(3, 3, 6, ActivationType.RELU)
+//                    .addMaxPoolingLayer(2, 2, 2)
+//              //      .addFullyConnectedLayer(30, ActivationType.RELU)
+//                    .addFullyConnectedLayer(20, ActivationType.RELU)
+//                    .addOutputLayer(classCount, SoftmaxOutputLayer.class)
+//                    .lossFunction(CrossEntropyLoss.class)
+//                    .randomSeed(123)
+//                    .build();
 
             LOGGER.info("Done!");
             LOGGER.info("Training neural network");
@@ -154,17 +156,18 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
             trainer.setLearningRate(learningRate)
                     .setMomentum(0.7f)
                     .setMaxError(maxError)
+                    .setMaxEpochs(maxEpochs)
                     .setBatchMode(false)
                     .setOptimizer(OptimizerType.MOMENTUM);
             trainer.train(imageSet);
 
             dnImgClassifier.setModel(neuralNet);
 
-//            try {
-//                FileIO.writeToFile(neuralNet, modelFile);
-//            } catch (IOException ex) {
-//                java.util.logging.Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
-//            }
+            try {
+                FileIO.writeToFile(neuralNet, saveToFile);
+            } catch (IOException ex) {
+                java.util.logging.Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
             return dnImgClassifier;
 
