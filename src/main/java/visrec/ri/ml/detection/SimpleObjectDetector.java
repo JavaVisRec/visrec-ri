@@ -12,7 +12,7 @@ import javax.visrec.util.BoundingBox;
  *
  * @author Zoran Sevarac
  */
-public class SimpleObjectDetector extends AbstractObjectDetector<BufferedImage> {
+public class SimpleObjectDetector extends AbstractObjectDetector {
 
     private double threshold = 0.5;
 
