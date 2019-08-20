@@ -3,9 +3,6 @@ package visrec.ri.ml.classification;
 import deepnetts.data.ExampleImage;
 import deepnetts.data.ImageSet;
 import deepnetts.net.ConvolutionalNetwork;
-import deepnetts.net.layers.SoftmaxOutputLayer;
-import deepnetts.net.layers.activation.ActivationType;
-import deepnetts.net.loss.CrossEntropyLoss;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.net.train.opt.OptimizerType;
 import deepnetts.util.DeepNettsException;
@@ -21,26 +18,15 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
- * TODO: Traffic sign recognition healhcare - skin, radiology caner for bone -
- * MRI vegetarian or non vegeterian food, transportation boxes simple
- * implementation and ditributed implemantayion using th esame api as hazelcast
- * trab what is teh biggest challange for javadeveloper starting tio use it
- * apache or gpl wit classpath , allow dynamic linkoing
- *
- * separate training from using. (resource usage) 3d stereo vision - using conv
- * networks use configuration JSR apache 382 iso standardize containers thermal
- * imaging
- *
- * BIG QUESTION HOW WILL WE INJECT ML MODEL? OR HOW WILL WE PROVIDE PARAMETERS
- * FOR BUILDING INTERNAL MODEL? WE SHOULD BE ABLE TO DO BOTH: incejt model or
- * build internal model using standard, or customized settings
+ * Implementation of abstract image classifier for BufferedImage-s using
+ * Convolutional network form Deep Netts.
  *
  * @author Zoran Sevarac
  */
 public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedImage, ConvolutionalNetwork> {
 
+    // it seems that these are not used at the end, onlz in builder. Do we need them exposed here__
     private int inputWidth, inputHeight;
 
     public static final Logger LOGGER = Logger.getLogger(DeepNettsImageClassifier.class.getName());
@@ -51,17 +37,21 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
 
     @Override
     public Map<String, Float> classify(BufferedImage sample) {
-        Map<String, Float> results = new HashMap<>();
-        ConvolutionalNetwork neuralNet = getModel();
-
+        // create input for neural network from image
         ExampleImage exImage = new ExampleImage(sample);
-        neuralNet.setInput(exImage.getInput());
-        neuralNet.forward();
 
+        // get underlying ML model, in this case convolutional network
+        ConvolutionalNetwork neuralNet = getModel();
+        // set neural network input and get outputs
+        neuralNet.setInput(exImage.getInput());
         float[] outputs = neuralNet.getOutput();
 
+        // get all class labels with corresponding output larger then classification threshold
+        Map<String, Float> results = new HashMap<>();
         for (int i = 0; i < outputs.length; i++) {
-            results.put(neuralNet.getOutputLabel(i), outputs[i]);
+            if (outputs[i] > getThreshold()) {
+                results.put(neuralNet.getOutputLabel(i), outputs[i]); // if : threshold_
+            }
         }
 
         return results;
@@ -75,6 +65,7 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
         return inputHeight;
     }
 
+    // static builder method for this class
     public static javax.visrec.util.Builder<DeepNettsImageClassifier> builder() {
         return new Builder();
     }
@@ -88,9 +79,6 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
-        // how to specify network archittecture which is a graph abesed model?
-        //use json object? specific Configuration? it has to be graph ike structure
-        // json file or json object or cprecific configuration
         @Override
         public DeepNettsImageClassifier build(Map<String, Object> config) {
             int imageWidth = Integer.parseInt(String.valueOf(config.get(VisRecConstants.IMAGE_WIDTH)));
@@ -100,6 +88,8 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
             float maxError = Float.parseFloat(String.valueOf(config.get(VisRecConstants.SGD_MAX_ERROR)));
             int maxEpochs = Integer.parseInt(String.valueOf(config.get(VisRecConstants.SGD_MAX_EPOCHS)));
             float learningRate = Float.parseFloat(String.valueOf(config.get(VisRecConstants.SGD_LEARNING_RATE)));
+            // subSampleSize u procentima ili tacan broj?
+            // invert zero mean
 
             String saveToFile = String.valueOf(config.get(VisRecConstants.MODEL_SAVE_TO));
 
@@ -110,55 +100,37 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
             try {
                 imageSet.loadImages(new File(trainingFile), false, 1000); // paths in training file should be relative
                 imageSet.invert();
-              //  imageSet.zeroMean();
+                //  imageSet.zeroMean();
                 imageSet.shuffle();
             } catch (DeepNettsException ex) {
                 java.util.logging.Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
-            }/* catch (FileNotFoundException ex) {
-                Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
-
-            int classCount = imageSet.getLabelsCount();
+                return null;
+            }
 
             LOGGER.info("Done!");
             LOGGER.info("Creating neural network...");
 
-        String modelJsonFile = String.valueOf(config.get("visrec.model.deepnetts"));
-        ConvolutionalNetwork neuralNet = null;
-        try {
-            neuralNet = (ConvolutionalNetwork)FileIO.createFromJson(new File(modelJsonFile));
-            neuralNet.setOutputLabels(imageSet.getOutputLabels());
-        } catch (IOException ex) {
-            Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            String modelJsonFile = String.valueOf(config.get("visrec.model.deepnetts"));
+            ConvolutionalNetwork neuralNet = null;
+            try {
+                neuralNet = (ConvolutionalNetwork) FileIO.createFromJson(new File(modelJsonFile));
+                neuralNet.setOutputLabels(imageSet.getOutputLabels());
+            } catch (IOException ex) {
+                Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
 
-            //get architecture from json instead of this hardcoding
-//            ConvolutionalNetwork neuralNet = new ConvolutionalNetwork.Builder()
-//                    .addInputLayer(imageWidth, imageHeight, 3)
-//                    .addConvolutionalLayer(5, 5, 3, ActivationType.RELU)
-//                    .addMaxPoolingLayer(2, 2, 2)
-//                    .addConvolutionalLayer(3, 3, 6, ActivationType.RELU)
-//                    .addMaxPoolingLayer(2, 2, 2)
-//              //      .addFullyConnectedLayer(30, ActivationType.RELU)
-//                    .addFullyConnectedLayer(20, ActivationType.RELU)
-//                    .addOutputLayer(classCount, SoftmaxOutputLayer.class)
-//                    .lossFunction(CrossEntropyLoss.class)
-//                    .randomSeed(123)
-//                    .build();
-
-            LOGGER.info("Done!");
             LOGGER.info("Training neural network");
 
             neuralNet.setOutputLabels(imageSet.getOutputLabels());
 
             // create a set of convolutional networks and do training, crossvalidation and performance evaluation
-            BackpropagationTrainer trainer = new BackpropagationTrainer(neuralNet);
+            BackpropagationTrainer trainer = neuralNet.getTrainer();
             trainer.setLearningRate(learningRate)
-                    .setMomentum(0.7f)
                     .setMaxError(maxError)
                     .setMaxEpochs(maxEpochs)
                     .setBatchMode(false)
-                    .setOptimizer(OptimizerType.MOMENTUM);
+                    .setOptimizer(OptimizerType.SGD);
             trainer.train(imageSet);
 
             dnImgClassifier.setModel(neuralNet);

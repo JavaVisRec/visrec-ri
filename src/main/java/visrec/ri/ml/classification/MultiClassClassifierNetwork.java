@@ -11,7 +11,7 @@ import javax.visrec.ml.classification.MultiClassClassifier;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeepNettsMultiClassClassifier extends MultiClassClassifier<FeedForwardNetwork> {
+public class MultiClassClassifierNetwork extends MultiClassClassifier<FeedForwardNetwork> {
 
     @Override
     public Map<String, Float> classify(float[] input) {
@@ -32,8 +32,8 @@ public class DeepNettsMultiClassClassifier extends MultiClassClassifier<FeedForw
 
     // TODO: add static builder class and method
 
-   public static class Builder implements javax.visrec.util.Builder<DeepNettsMultiClassClassifier> {
-        private DeepNettsMultiClassClassifier product = new DeepNettsMultiClassClassifier();
+   public static class Builder implements javax.visrec.util.Builder<MultiClassClassifierNetwork> {
+        private MultiClassClassifierNetwork building = new MultiClassClassifierNetwork();
 
         private float learningRate = 0.01f;
         private float maxError = 0.03f;
@@ -45,7 +45,7 @@ public class DeepNettsMultiClassClassifier extends MultiClassClassifier<FeedForw
         private DataSet<?> trainingSet;
 
         @Override
-        public DeepNettsMultiClassClassifier build() {
+        public MultiClassClassifierNetwork build() {
             // Network architecture as Map/properties, json?
             FeedForwardNetwork.Builder builder =  FeedForwardNetwork.builder()
                                                     .addInputLayer(inputsNum);
@@ -68,9 +68,9 @@ public class DeepNettsMultiClassClassifier extends MultiClassClassifier<FeedForw
             if (trainingSet!=null)
                 trainer.train(trainingSet); // move model to constructor
 
-            product.setModel(model);
+            building.setModel(model);
 
-            return product;
+            return building;
         }
 
         public Builder learningRate(float learningRate) {
@@ -109,7 +109,7 @@ public class DeepNettsMultiClassClassifier extends MultiClassClassifier<FeedForw
         }
 
         @Override
-        public DeepNettsMultiClassClassifier build(Map prop) {
+        public MultiClassClassifierNetwork build(Map prop) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
    }
