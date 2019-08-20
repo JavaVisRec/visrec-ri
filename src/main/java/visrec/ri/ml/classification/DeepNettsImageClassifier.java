@@ -29,10 +29,8 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
     // it seems that these are not used at the end, onlz in builder. Do we need them exposed here__
     private int inputWidth, inputHeight;
 
-    public static final Logger LOGGER = Logger.getLogger(DeepNettsImageClassifier.class.getName());
-
-    public DeepNettsImageClassifier() {
-        super(BufferedImage.class);
+    public DeepNettsImageClassifier(ConvolutionalNetwork network) {
+        super(BufferedImage.class, network);
     }
 
     @Override
@@ -72,7 +70,7 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
 
     public static class Builder implements javax.visrec.util.Builder<DeepNettsImageClassifier> {
 
-        DeepNettsImageClassifier dnImgClassifier = new DeepNettsImageClassifier();
+        private final Logger LOGGER = Logger.getLogger(DeepNettsImageClassifier.class.getName());
 
         @Override
         public DeepNettsImageClassifier build() {
@@ -133,7 +131,7 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
                     .setOptimizer(OptimizerType.SGD);
             trainer.train(imageSet);
 
-            dnImgClassifier.setModel(neuralNet);
+            DeepNettsImageClassifier dnImgClassifier = new DeepNettsImageClassifier(neuralNet);
 
             try {
                 FileIO.writeToFile(neuralNet, saveToFile);
@@ -146,5 +144,4 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
         }
 
     }
-
 }
