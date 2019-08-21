@@ -5,6 +5,7 @@ import javax.visrec.ml.classification.ClassifierBuilder;
 
 /**
  * Default implementation of the {@link ClassifierBuilder}
+ * Zoran to Kevin: Does it makes sense to have final default classifier builder which throws UnsupportedOperationException?
  * @author Kevin Berendsen
  */
 public final class DefaultClassifierBuilder extends ClassifierBuilder {

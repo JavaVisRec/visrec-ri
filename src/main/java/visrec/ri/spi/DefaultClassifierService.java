@@ -8,7 +8,7 @@ import deepnetts.net.loss.CrossEntropyLoss;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.net.train.opt.OptimizerType;
 import deepnetts.util.DeepNettsException;
-import visrec.ri.ml.classification.DeepNettsImageClassifier;
+import visrec.ri.ml.classification.ImageClassifierNetwork;
 
 import javax.visrec.ml.classification.Classifier;
 import javax.visrec.ml.classification.ImageClassifier;
@@ -82,7 +82,7 @@ public final class DefaultClassifierService implements ClassifierService {
                 .setOptimizer(OptimizerType.MOMENTUM);
         trainer.train(imageSet);
 
-        DeepNettsImageClassifier imageClassifier = new DeepNettsImageClassifier(neuralNet);
+        ImageClassifierNetwork imageClassifier = new ImageClassifierNetwork(neuralNet);
 
 //            try {
 //                FileIO.writeToFile(neuralNet, modelFile);

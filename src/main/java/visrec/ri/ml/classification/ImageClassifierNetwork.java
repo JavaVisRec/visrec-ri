@@ -24,12 +24,12 @@ import java.util.logging.Logger;
  *
  * @author Zoran Sevarac
  */
-public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedImage, ConvolutionalNetwork> {
+public class ImageClassifierNetwork extends AbstractImageClassifier<BufferedImage, ConvolutionalNetwork> {
 
     // it seems that these are not used at the end, onlz in builder. Do we need them exposed here__
     private int inputWidth, inputHeight;
 
-    public DeepNettsImageClassifier(ConvolutionalNetwork network) {
+    public ImageClassifierNetwork(ConvolutionalNetwork network) {
         super(BufferedImage.class, network);
     }
 
@@ -64,21 +64,21 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
     }
 
     // static builder method for this class
-    public static javax.visrec.util.Builder<DeepNettsImageClassifier> builder() {
+    public static javax.visrec.util.Builder<ImageClassifierNetwork> builder() {
         return new Builder();
     }
 
-    public static class Builder implements javax.visrec.util.Builder<DeepNettsImageClassifier> {
+    public static class Builder implements javax.visrec.util.Builder<ImageClassifierNetwork> {
 
-        private final Logger LOGGER = Logger.getLogger(DeepNettsImageClassifier.class.getName());
+        private final Logger LOGGER = Logger.getLogger(ImageClassifierNetwork.class.getName());
 
         @Override
-        public DeepNettsImageClassifier build() {
+        public ImageClassifierNetwork build() {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override
-        public DeepNettsImageClassifier build(Map<String, Object> config) {
+        public ImageClassifierNetwork build(Map<String, Object> config) {
             int imageWidth = Integer.parseInt(String.valueOf(config.get(VisRecConstants.IMAGE_WIDTH)));
             int imageHeight = Integer.parseInt(String.valueOf(config.get(VisRecConstants.IMAGE_HEIGHT)));
             String labelsFile = String.valueOf(config.get(VisRecConstants.LABELS_FILE));
@@ -101,7 +101,7 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
                 //  imageSet.zeroMean();
                 imageSet.shuffle();
             } catch (DeepNettsException ex) {
-                java.util.logging.Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
+                java.util.logging.Logger.getLogger(ImageClassifierNetwork.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
 
@@ -114,7 +114,7 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
                 neuralNet = (ConvolutionalNetwork) FileIO.createFromJson(new File(modelJsonFile));
                 neuralNet.setOutputLabels(imageSet.getOutputLabels());
             } catch (IOException ex) {
-                Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ImageClassifierNetwork.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
 
@@ -131,12 +131,12 @@ public class DeepNettsImageClassifier extends AbstractImageClassifier<BufferedIm
                     .setOptimizer(OptimizerType.SGD);
             trainer.train(imageSet);
 
-            DeepNettsImageClassifier dnImgClassifier = new DeepNettsImageClassifier(neuralNet);
+            ImageClassifierNetwork dnImgClassifier = new ImageClassifierNetwork(neuralNet);
 
             try {
                 FileIO.writeToFile(neuralNet, saveToFile);
             } catch (IOException ex) {
-                java.util.logging.Logger.getLogger(DeepNettsImageClassifier.class.getName()).log(Level.SEVERE, null, ex);
+                java.util.logging.Logger.getLogger(ImageClassifierNetwork.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             return dnImgClassifier;
