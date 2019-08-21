@@ -21,7 +21,7 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>com.deepnetts</groupId>
             <artifactId>deepnetts-core-ce</artifactId>
             <version>1.1-SNAPSHOT</version>
@@ -35,7 +35,7 @@
                     <artifactId>deepnetts-license</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency-->
 
         <!-- Test dependencies -->
         <dependency>
@@ -144,7 +144,8 @@
                 </configuration>
             </plugin>
 
-            <plugin>
+            <!-- zoran: this caused errors for me-->
+            <!--plugin>
                 <inherited>true</inherited>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -160,9 +161,9 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
 
-            <plugin>
+            <!--plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>2.2.1</version>
@@ -174,7 +175,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
         </plugins>
     </build>
 

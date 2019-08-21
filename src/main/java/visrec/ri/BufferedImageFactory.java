@@ -12,7 +12,7 @@ import java.net.URL;
  * {@link ImageFactory} to provide {@link BufferedImage} as return object.
  * @author Kevin Berendsen
  */
-public class BufferedImageImageFactory implements ImageFactory<BufferedImage> {
+public class BufferedImageFactory implements ImageFactory<BufferedImage> {
 
     /** {@inheritDoc} */
     @Override

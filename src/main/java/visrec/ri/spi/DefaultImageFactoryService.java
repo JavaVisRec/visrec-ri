@@ -1,6 +1,6 @@
 package visrec.ri.spi;
 
-import visrec.ri.BufferedImageImageFactory;
+import visrec.ri.BufferedImageFactory;
 
 import javax.visrec.ImageFactory;
 import javax.visrec.spi.ImageFactoryService;
@@ -20,7 +20,7 @@ public final class DefaultImageFactoryService implements ImageFactoryService {
     private static final Map<Class<?>, ImageFactory<?>> imageFactories;
     static {
         imageFactories = new HashMap<>();
-        imageFactories.put(BufferedImage.class, new BufferedImageImageFactory());
+        imageFactories.put(BufferedImage.class, new BufferedImageFactory());
     }
 
     /**
