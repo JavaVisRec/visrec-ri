@@ -1,6 +1,8 @@
 package visrec.ri.ml.classification;
 
-import deepnetts.data.DataSet;
+import deepnetts.data.DeepNettsBasicDataSet;
+import deepnetts.data.DeepNettsDataSetItem;
+import javax.visrec.ml.data.DataSet;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
@@ -48,7 +50,7 @@ public class BinaryClassifierNetwork implements Classifier<float[], Boolean>{
         
         BinaryClassifierNetwork building = new BinaryClassifierNetwork();
 
-        private DataSet<?> trainingSet; // replace with DataSet from visrec
+        private DataSet<? extends DeepNettsDataSetItem> trainingSet; // replace with DataSet from visrec
 
         public Builder inputsNum(int inputsNum) {
             this.inputsNum = inputsNum;
@@ -70,7 +72,7 @@ public class BinaryClassifierNetwork implements Classifier<float[], Boolean>{
             return this;
         }
 
-        public Builder trainingSet(DataSet<?> trainingSet) {
+        public Builder trainingSet(DataSet<? extends DeepNettsDataSetItem> trainingSet) {
             this.trainingSet = trainingSet;
             return this;
         }        

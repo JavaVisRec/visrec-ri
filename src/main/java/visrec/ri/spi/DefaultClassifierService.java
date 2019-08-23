@@ -10,10 +10,8 @@ import deepnetts.net.train.opt.OptimizerType;
 import deepnetts.util.DeepNettsException;
 import visrec.ri.ml.classification.ImageClassifierNetwork;
 
-import javax.visrec.ml.classification.Classifier;
 import javax.visrec.ml.classification.ImageClassifier;
 import javax.visrec.spi.ClassifierService;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,8 +30,8 @@ public final class DefaultClassifierService implements ClassifierService {
 
         imageSet.loadLabels(block.getLabelsFile());
         try {
-            imageSet.loadImages(block.getTrainingsFile(), true); // paths in training file should be relative
-            imageSet.invert();
+            imageSet.loadImages(block.getTrainingsFile());
+          //  imageSet.invert();
             imageSet.zeroMean();
             imageSet.shuffle();
         } catch (DeepNettsException | FileNotFoundException ex) {
@@ -71,7 +69,7 @@ public final class DefaultClassifierService implements ClassifierService {
         LOGGER.info("Done!");
         LOGGER.info("Training neural network");
 
-        neuralNet.setOutputLabels(imageSet.getOutputLabels());
+        neuralNet.setOutputLabels(imageSet.getTargetNames());
 
         // create a set of convolutional networks and do training, crossvalidation and performance evaluation
         BackpropagationTrainer trainer = new BackpropagationTrainer(neuralNet);

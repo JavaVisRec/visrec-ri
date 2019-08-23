@@ -96,8 +96,8 @@ public class ImageClassifierNetwork extends AbstractImageClassifier<BufferedImag
 
             imageSet.loadLabels(new File(labelsFile));
             try {
-                imageSet.loadImages(new File(trainingFile), false, 1000); // paths in training file should be relative
-                imageSet.invert();
+                imageSet.loadImages(new File(trainingFile), 1000); // paths in training file should be relative
+               // imageSet.invert(); // donw while loading and set flag
                 //  imageSet.zeroMean();
                 imageSet.shuffle();
             } catch (DeepNettsException ex) {
@@ -112,7 +112,7 @@ public class ImageClassifierNetwork extends AbstractImageClassifier<BufferedImag
             ConvolutionalNetwork neuralNet = null;
             try {
                 neuralNet = (ConvolutionalNetwork) FileIO.createFromJson(new File(modelJsonFile));
-                neuralNet.setOutputLabels(imageSet.getOutputLabels());
+                neuralNet.setOutputLabels(imageSet.getTargetNames()); // redirektuj na getTargetNames
             } catch (IOException ex) {
                 Logger.getLogger(ImageClassifierNetwork.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
@@ -120,7 +120,7 @@ public class ImageClassifierNetwork extends AbstractImageClassifier<BufferedImag
 
             LOGGER.info("Training neural network");
 
-            neuralNet.setOutputLabels(imageSet.getOutputLabels());
+            neuralNet.setOutputLabels(imageSet.getTargetNames());
 
             // create a set of convolutional networks and do training, crossvalidation and performance evaluation
             BackpropagationTrainer trainer = neuralNet.getTrainer();

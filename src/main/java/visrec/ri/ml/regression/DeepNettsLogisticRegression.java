@@ -1,15 +1,16 @@
-package visrec.ri.regression;
+package visrec.ri.ml.regression;
 
-import deepnetts.data.DataSet;
+import deepnetts.data.DeepNettsDataSetItem;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.util.Tensor;
 
-import javax.visrec.regression.LogisticRegression;
+import javax.visrec.ml.regression.LogisticRegression;
 import java.util.HashMap;
 import java.util.Map;
+import javax.visrec.ml.data.DataSet;
 
 /**
  *
@@ -42,7 +43,7 @@ public class DeepNettsLogisticRegression extends LogisticRegression<FeedForwardN
         private int maxEpochs = 1000;
         private int inputsNum;
 
-        private DataSet<?> trainingSet; // replace with DataSet from visrec
+        private DataSet<? extends DeepNettsDataSetItem> trainingSet; // replace with DataSet from visrec
 
         public Builder inputsNum(int inputsNum) {
             this.inputsNum = inputsNum;
@@ -64,7 +65,7 @@ public class DeepNettsLogisticRegression extends LogisticRegression<FeedForwardN
             return this;
         }
 
-        public Builder trainingSet(DataSet<?> trainingSet) {
+        public Builder trainingSet(DataSet<? extends DeepNettsDataSetItem> trainingSet) {
             this.trainingSet = trainingSet;
             return this;
         }

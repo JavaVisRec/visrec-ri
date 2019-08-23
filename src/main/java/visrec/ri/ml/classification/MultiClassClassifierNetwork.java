@@ -1,6 +1,6 @@
 package visrec.ri.ml.classification;
 
-import deepnetts.data.DataSet;
+import deepnetts.data.DeepNettsDataSetItem;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
@@ -10,6 +10,7 @@ import deepnetts.util.Tensor;
 import javax.visrec.ml.classification.MultiClassClassifier;
 import java.util.HashMap;
 import java.util.Map;
+import javax.visrec.ml.data.DataSet;
 
 public class MultiClassClassifierNetwork extends MultiClassClassifier<FeedForwardNetwork> {
 
@@ -42,7 +43,7 @@ public class MultiClassClassifierNetwork extends MultiClassClassifier<FeedForwar
         private int outputsNum;
         private int[] hiddenLayers;
 
-        private DataSet<?> trainingSet;
+        private DataSet<? extends DeepNettsDataSetItem>  trainingSet;
 
         @Override
         public MultiClassClassifierNetwork build() {
@@ -103,7 +104,7 @@ public class MultiClassClassifierNetwork extends MultiClassClassifier<FeedForwar
             return this;
         }
 
-        public Builder trainingSet(DataSet<?> trainingSet) {
+        public Builder trainingSet(DataSet<? extends DeepNettsDataSetItem>  trainingSet) {
             this.trainingSet = trainingSet;
             return this;
         }
