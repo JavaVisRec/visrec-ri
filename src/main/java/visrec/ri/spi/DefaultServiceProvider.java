@@ -11,7 +11,7 @@ public final class DefaultServiceProvider extends ServiceProvider {
     /** {@inheritDoc} */
     @Override
     public BuilderService getBuilderService() {
-        return new DefaultBuilderService();
+        return null;//new DefaultBuilderService();
     }
 
     /** {@inheritDoc} */
