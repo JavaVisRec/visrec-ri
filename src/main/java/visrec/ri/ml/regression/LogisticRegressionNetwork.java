@@ -8,25 +8,20 @@ import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.util.Tensor;
 
 import javax.visrec.ml.regression.LogisticRegression;
-import java.util.HashMap;
-import java.util.Map;
 import javax.visrec.ml.data.DataSet;
 
 /**
  *
  * @author zoran
  */
-public class DeepNettsLogisticRegression extends LogisticRegression<FeedForwardNetwork> {
+public class LogisticRegressionNetwork extends LogisticRegression<FeedForwardNetwork> {
 
     @Override
-    public Map<Boolean, Float> classify(float[] input) {
+    public Float classify(float[] input) {
       FeedForwardNetwork model = getModel();
       model.setInput(Tensor.create(1, input.length, input)); //TODO: put array to input tensor placeholder
       float[] output = model.getOutput();
-      Map<Boolean, Float> result = new HashMap<>();
-      result.put(Boolean.TRUE, output[0]);
-      result.put(Boolean.FALSE, 1-output[0]);
-      return result;
+      return output[0];
     }
 
     public static Builder builder() {
@@ -35,7 +30,7 @@ public class DeepNettsLogisticRegression extends LogisticRegression<FeedForwardN
 
     // TODO: add static builder class and method
 
-   public static class Builder implements javax.visrec.util.Builder<DeepNettsLogisticRegression> {
+   public static class Builder implements javax.visrec.util.Builder<LogisticRegressionNetwork> {
 
 
         private float learningRate = 0.01f;
@@ -74,7 +69,7 @@ public class DeepNettsLogisticRegression extends LogisticRegression<FeedForwardN
         // target accuracy
 
         @Override
-        public DeepNettsLogisticRegression build() {
+        public LogisticRegressionNetwork build() {
             FeedForwardNetwork model= FeedForwardNetwork.builder()
                                         .addInputLayer(inputsNum)
                                         .addOutputLayer(1, ActivationType.SIGMOID)
@@ -89,7 +84,7 @@ public class DeepNettsLogisticRegression extends LogisticRegression<FeedForwardN
             if (trainingSet!=null)
                 trainer.train(trainingSet);
 
-            DeepNettsLogisticRegression product = new DeepNettsLogisticRegression();
+            LogisticRegressionNetwork product = new LogisticRegressionNetwork();
             product.setModel(model);
             return product;
         }

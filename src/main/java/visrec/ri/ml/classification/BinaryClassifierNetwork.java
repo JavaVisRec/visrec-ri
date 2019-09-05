@@ -7,6 +7,7 @@ import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import java.util.Map;
+import javax.visrec.ml.classification.BinaryClassifier;
 import javax.visrec.ml.classification.Classifier;
 
 /**
@@ -14,7 +15,7 @@ import javax.visrec.ml.classification.Classifier;
  * 
  * @author Zoran
  */
-public class BinaryClassifierNetwork implements Classifier<float[], Boolean>{
+public class BinaryClassifierNetwork implements BinaryClassifier<float[]> {
 
     private FeedForwardNetwork model;
     
@@ -30,14 +31,14 @@ public class BinaryClassifierNetwork implements Classifier<float[], Boolean>{
     }
 
 
-//classifier takes some object as an input and returns its class
     public static Builder builder() {
         return new Builder();
     }
 
     @Override
-    public Map<Boolean, Float> classify(float[] arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Float classify(float[] inputs) {
+        getModel().setInput(inputs);
+        return getModel().getOutput()[0];
     }
     
     public static class Builder implements javax.visrec.util.Builder<BinaryClassifierNetwork> {    

@@ -49,7 +49,7 @@ public class SimpleObjectDetector extends AbstractObjectDetector {
                 for (Map.Entry<String, Float> keyValPair : results2.entrySet()) {
                     if (keyValPair.getValue() > threshold) {
                         BoundingBox bbox = new BoundingBox(keyValPair.getKey(), keyValPair.getValue(), x, y, boxWidth, boxHeight);
-                        // results.add(bbox);
+                        //results.put(keyValPair.getKey(), bboxes); add these to list
                     }
                 }
             }

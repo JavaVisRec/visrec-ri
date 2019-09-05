@@ -7,12 +7,12 @@ import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.util.Tensor;
 
-import javax.visrec.ml.classification.MultiClassClassifier;
+import javax.visrec.ml.classification.AbstractMultiClassClassifier;
 import java.util.HashMap;
 import java.util.Map;
 import javax.visrec.ml.data.DataSet;
 
-public class MultiClassClassifierNetwork extends MultiClassClassifier<FeedForwardNetwork> {
+public class MultiClassClassifierNetwork extends AbstractMultiClassClassifier<FeedForwardNetwork, float[], String> {
 
     @Override
     public Map<String, Float> classify(float[] input) {
