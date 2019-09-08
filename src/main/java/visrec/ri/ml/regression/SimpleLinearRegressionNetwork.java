@@ -12,13 +12,15 @@ import java.util.Map;
 import javax.visrec.ml.data.DataSet;
 
 /**
- *
- * @author zoran
+ * Simple linear regression implemented Feed Forward Neural Network as a back-end.
+ * 
+ * @see SimpleLinearRegression
+ * @author Zoran Sevarac
  */
-public class DeepNettsSimpleLinearRegression extends SimpleLinearRegression<FeedForwardNetwork> {
+public class SimpleLinearRegressionNetwork extends SimpleLinearRegression<FeedForwardNetwork> {
 
-    private float[] input = new float[1];
-    private Tensor inputTensor = Tensor.create(1, 1, input);
+    private final float[] input = new float[1];
+    private final Tensor inputTensor = Tensor.create(1, 1, input);
 
     private float slope;
     private float intercept;
@@ -47,8 +49,8 @@ public class DeepNettsSimpleLinearRegression extends SimpleLinearRegression<Feed
     }
 
 
-    public static class Builder implements javax.visrec.util.Builder<DeepNettsSimpleLinearRegression> {
-        private DeepNettsSimpleLinearRegression product = new DeepNettsSimpleLinearRegression();
+    public static class Builder implements javax.visrec.util.Builder<SimpleLinearRegressionNetwork> {
+        private SimpleLinearRegressionNetwork buildingBlock = new SimpleLinearRegressionNetwork();
 
         private float learningRate = 0.01f;
         private float maxError = 0.03f;
@@ -81,7 +83,7 @@ public class DeepNettsSimpleLinearRegression extends SimpleLinearRegression<Feed
         // target accuracy
 
         @Override
-        public DeepNettsSimpleLinearRegression build() {
+        public SimpleLinearRegressionNetwork build() {
             FeedForwardNetwork model= FeedForwardNetwork.builder()
                                         .addInputLayer(1)
                                         .addOutputLayer(1, ActivationType.LINEAR)
@@ -90,17 +92,18 @@ public class DeepNettsSimpleLinearRegression extends SimpleLinearRegression<Feed
 
             BackpropagationTrainer trainer = new BackpropagationTrainer(model);
             trainer.setLearningRate(learningRate)
-                    .setMaxError(0.005f);
+                    .setMaxError(maxError)
+                    .setMaxEpochs(maxEpochs);
             trainer.train(trainingSet);
 
-            product.intercept = model.getOutputLayer().getBiases()[0];
-            product.slope = model.getOutputLayer().getWeights().get(0);
+            buildingBlock.intercept = model.getOutputLayer().getBiases()[0];
+            buildingBlock.slope = model.getOutputLayer().getWeights().get(0);
 
-            product.setModel(model);
-            return product;
+            buildingBlock.setModel(model);
+            return buildingBlock;
         }
 
-        public DeepNettsSimpleLinearRegression build(Map prop) {
+        public SimpleLinearRegressionNetwork build(Map prop) {
             // set properties from prop
             // iterate properties and set corresponding attributes using reflection - can be default method
 //            for(String propName : prop.keySet()) {
