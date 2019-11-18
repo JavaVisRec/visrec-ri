@@ -40,7 +40,7 @@ public class BinaryClassifierNetwork implements BinaryClassifier<float[]>, Model
         return model.getOutput()[0];
     }
     
-    public static class Builder implements javax.visrec.util.Builder<BinaryClassifierNetwork> {    
+    public static class Builder implements javax.visrec.util.Builder<BinaryClassifierNetwork> {
 
         private float learningRate = 0.01f;
         private float maxError = 0.03f;

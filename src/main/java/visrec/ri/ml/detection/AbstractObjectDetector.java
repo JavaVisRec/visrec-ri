@@ -1,6 +1,7 @@
 package visrec.ri.ml.detection;
 
 import javax.visrec.AbstractImageClassifier;
+import javax.visrec.ml.ClassificationException;
 import javax.visrec.ml.detection.ObjectDetector;
 import javax.visrec.util.BoundingBox;
 import java.awt.image.BufferedImage;
@@ -19,13 +20,13 @@ import java.util.Objects;
  */
 public abstract class AbstractObjectDetector implements ObjectDetector<BufferedImage> {
 
-    private AbstractImageClassifier<BufferedImage, Boolean> imageClassifier; // This should be binary classifier, that can detectObject some object / image
+    private AbstractImageClassifier<Boolean> imageClassifier; // This should be binary classifier, that can detectObject some object / image
 
     /**
      * Creates an instance of the object detector
      * @param imageClassifier A {@link AbstractImageClassifier} which may not be null
      */
-    public AbstractObjectDetector(AbstractImageClassifier<BufferedImage, Boolean> imageClassifier) {
+    public AbstractObjectDetector(AbstractImageClassifier<Boolean> imageClassifier) {
         Objects.requireNonNull(imageClassifier, "A classifier is required for the object detector.");
         this.imageClassifier = imageClassifier;
     }
@@ -38,7 +39,7 @@ public abstract class AbstractObjectDetector implements ObjectDetector<BufferedI
      * has been detected.
      */
     @Override
-    public abstract Map<String, List<BoundingBox>> detectObject(BufferedImage image);
+    public abstract Map<String, List<BoundingBox>> detectObject(BufferedImage image) throws ClassificationException;
 
     /**
      * Detect the object based on the given {@code File}.
@@ -47,7 +48,7 @@ public abstract class AbstractObjectDetector implements ObjectDetector<BufferedI
      * has been detected.
      * @throws IOException if the image couldn't be retrieved from storage.
      */
-    public Map<String, List<BoundingBox>> detect(File file) throws IOException {
+    public Map<String, List<BoundingBox>> detect(File file) throws IOException, ClassificationException {
         BufferedImage image = imageClassifier.getImageFactory().getImage(file);
         return detectObject(image);
     }
@@ -59,7 +60,7 @@ public abstract class AbstractObjectDetector implements ObjectDetector<BufferedI
      * has been detected.
      * @throws IOException if the image couldn't be retrieved from storage.
      */
-    public Map<String, List<BoundingBox>> detect(InputStream inStream) throws IOException {
+    public Map<String, List<BoundingBox>> detect(InputStream inStream) throws IOException, ClassificationException {
         BufferedImage image = imageClassifier.getImageFactory().getImage(inStream);
         return detectObject(image);
     }
@@ -69,7 +70,7 @@ public abstract class AbstractObjectDetector implements ObjectDetector<BufferedI
      *
      * @return configured {@link AbstractImageClassifier} of the {@link AbstractObjectDetector}
      */
-    public AbstractImageClassifier<BufferedImage, Boolean> getImageClassifier() {
+    public AbstractImageClassifier<Boolean> getImageClassifier() {
         return imageClassifier;
     }
 
