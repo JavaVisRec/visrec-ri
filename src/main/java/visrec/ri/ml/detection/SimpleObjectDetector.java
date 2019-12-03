@@ -1,11 +1,12 @@
 package visrec.ri.ml.detection;
 
+import javax.visrec.AbstractImageClassifier;
+import javax.visrec.ml.ClassificationException;
+import javax.visrec.util.BoundingBox;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.visrec.AbstractImageClassifier;
-import javax.visrec.util.BoundingBox;
 
 /**
  * A simple object detector
@@ -20,7 +21,7 @@ public class SimpleObjectDetector extends AbstractObjectDetector {
      * Creates an instance
      * @param classifier A {@link AbstractImageClassifier} which may not be null
      */
-    public SimpleObjectDetector(AbstractImageClassifier<BufferedImage, Boolean> classifier) {
+    public SimpleObjectDetector(AbstractImageClassifier<Boolean> classifier) {
         super(classifier);
     }
 
@@ -37,7 +38,7 @@ public class SimpleObjectDetector extends AbstractObjectDetector {
      * the positions of the detected object.
      */
     @Override
-    public Map<String, List<BoundingBox>> detectObject(BufferedImage image) {
+    public Map<String, List<BoundingBox>> detectObject(BufferedImage image) throws ClassificationException {
         Map<String, List<BoundingBox>> results = new HashMap<>();
 
         int boxWidth = 64, boxHeight = 64;

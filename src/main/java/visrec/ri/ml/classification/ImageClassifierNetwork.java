@@ -24,13 +24,13 @@ import java.util.logging.Logger;
  *
  * @author Zoran Sevarac
  */
-public class ImageClassifierNetwork extends AbstractImageClassifier<BufferedImage, ConvolutionalNetwork> {
+public class ImageClassifierNetwork extends AbstractImageClassifier<ConvolutionalNetwork> {
 
     // it seems that these are not used at the end, onlz in builder. Do we need them exposed here__
     private int inputWidth, inputHeight;
 
     public ImageClassifierNetwork(ConvolutionalNetwork network) {
-        super(BufferedImage.class, network);
+        super(network);
     }
 
     @Override
