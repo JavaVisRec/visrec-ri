@@ -47,6 +47,7 @@ public abstract class AbstractObjectDetector implements ObjectDetector<BufferedI
      * @return {@code Map} of {@link BoundingBox} of where the object
      * has been detected.
      * @throws IOException if the image couldn't be retrieved from storage.
+     * @throws ClassificationException when the detector was unable to classify and detect the input
      */
     public Map<String, List<BoundingBox>> detect(File file) throws IOException, ClassificationException {
         BufferedImage image = imageClassifier.getImageFactory().getImage(file);
@@ -59,6 +60,7 @@ public abstract class AbstractObjectDetector implements ObjectDetector<BufferedI
      * @return {@code Map} of {@link BoundingBox} of where the object
      * has been detected.
      * @throws IOException if the image couldn't be retrieved from storage.
+     * @throws ClassificationException when the detector was unable to classify and detect the input
      */
     public Map<String, List<BoundingBox>> detect(InputStream inStream) throws IOException, ClassificationException {
         BufferedImage image = imageClassifier.getImageFactory().getImage(inStream);

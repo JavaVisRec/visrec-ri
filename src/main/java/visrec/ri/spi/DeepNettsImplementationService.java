@@ -16,13 +16,7 @@ public class DeepNettsImplementationService extends ImplementationService {
 
     /** {@inheritDoc} */
     @Override
-    public int getMajorVersion() {
-        return 1;
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public int getMinorVersion() {
-        return 1;
+    public String getVersion() {
+        return "1.1";
     }
 }
