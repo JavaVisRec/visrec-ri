@@ -17,18 +17,30 @@ public class BufferedImageFactory implements ImageFactory<BufferedImage> {
     /** {@inheritDoc} */
     @Override
     public BufferedImage getImage(File file) throws IOException {
-        return ImageIO.read(file);
+        BufferedImage img = ImageIO.read(file);
+        if (img == null) {
+            throw new IOException("Unable to transform File into BufferedImage due to unknown image encoding");
+        }
+        return img;
     }
 
     /** {@inheritDoc} */
     @Override
     public BufferedImage getImage(URL file) throws IOException {
-        return ImageIO.read(file);
+        BufferedImage img = ImageIO.read(file);
+        if (img == null) {
+            throw new IOException("Unable to transform URL into BufferedImage due to unknown image encoding");
+        }
+        return img;
     }
 
     /** {@inheritDoc} */
     @Override
     public BufferedImage getImage(InputStream file) throws IOException {
-        return ImageIO.read(file);
+        BufferedImage img = ImageIO.read(file);
+        if (img == null) {
+            throw new IOException("Unable to transform InputStream into BufferedImage due to unknown image encoding");
+        }
+        return img;
     }
 }

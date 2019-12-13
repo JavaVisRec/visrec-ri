@@ -9,6 +9,7 @@ import deepnetts.util.FileIO;
 import visrec.ri.ml.classification.ImageClassifierNetwork;
 
 import javax.visrec.ml.ClassifierCreationException;
+import javax.visrec.ml.classification.BinaryClassifier;
 import javax.visrec.ml.classification.ImageClassifier;
 import javax.visrec.spi.ClassifierService;
 import java.io.FileNotFoundException;
@@ -65,5 +66,10 @@ public final class DefaultClassifierService implements ClassifierService {
             throw new ClassifierCreationException("Unable to write trained model to file", ex);
         }
         return imageClassifier;
+    }
+
+    @Override
+    public BinaryClassifier createBinaryClassifier(BinaryClassifier.BuildingBlock block) throws ClassifierCreationException {
+        throw new UnsupportedOperationException("not implemented yet");
     }
 }

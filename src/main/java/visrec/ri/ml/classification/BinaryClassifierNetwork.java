@@ -1,11 +1,12 @@
 package visrec.ri.ml.classification;
 
 import deepnetts.data.DeepNettsDataSetItem;
-import javax.visrec.ml.data.DataSet;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
-import javax.visrec.ml.classification.BinaryClassifier;
+
+import javax.visrec.ml.classification.DeprecatedBinaryClassifier;
+import javax.visrec.ml.data.DataSet;
 import javax.visrec.util.ModelProvider;
 
 /**
@@ -13,7 +14,7 @@ import javax.visrec.util.ModelProvider;
  * 
  * @author Zoran
  */
-public class BinaryClassifierNetwork implements BinaryClassifier<float[]>, ModelProvider<FeedForwardNetwork> {
+public class BinaryClassifierNetwork implements DeprecatedBinaryClassifier<float[]>, ModelProvider<FeedForwardNetwork> {
 
     private FeedForwardNetwork model;
 
