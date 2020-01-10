@@ -21,7 +21,7 @@ public class SimpleObjectDetector extends AbstractObjectDetector {
      * Creates an instance
      * @param classifier A {@link AbstractImageClassifier} which may not be null
      */
-    public SimpleObjectDetector(AbstractImageClassifier<Boolean> classifier) {
+    public SimpleObjectDetector(AbstractImageClassifier<BufferedImage, Boolean> classifier) {
         super(classifier);
     }
 

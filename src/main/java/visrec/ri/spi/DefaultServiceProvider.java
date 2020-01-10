@@ -16,12 +16,6 @@ public final class DefaultServiceProvider extends ServiceProvider {
 
     /** {@inheritDoc} */
     @Override
-    public ClassifierService getClassifierService() {
-        return new DefaultClassifierService();
-    }
-
-    /** {@inheritDoc} */
-    @Override
     public ImageFactoryService getImageFactoryService() {
         return new DefaultImageFactoryService();
     }

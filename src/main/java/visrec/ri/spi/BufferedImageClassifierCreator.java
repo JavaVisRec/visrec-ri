@@ -9,26 +9,24 @@ import deepnetts.util.FileIO;
 import visrec.ri.ml.classification.ImageClassifierNetwork;
 
 import javax.visrec.ml.ClassifierCreationException;
-import javax.visrec.ml.classification.BinaryClassifier;
 import javax.visrec.ml.classification.ImageClassifier;
-import javax.visrec.spi.ClassifierService;
+import javax.visrec.spi.ImageClassifierCreator;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-/**
- * @author Kevin Berendsen
- */
-public final class DefaultClassifierService implements ClassifierService {
+public class BufferedImageClassifierCreator implements ImageClassifierCreator<BufferedImage> {
 
-    private static final Logger LOGGER = Logger.getLogger(DefaultClassifierService.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BufferedImageClassifierCreator.class.getName());
 
     @Override
-    public <T> ImageClassifier<T> createImageClassifier(ImageClassifier.BuildingBlock<T> block) throws ClassifierCreationException {
-        if(!block.getImageClass().equals(BufferedImage.class)) {
-            throw new ClassifierCreationException("Only BufferedImage is supported as image type");
-        }
+    public Class<BufferedImage> getImageClass() {
+        return BufferedImage.class;
+    }
+
+    @Override
+    public ImageClassifier<BufferedImage> create(ImageClassifier.BuildingBlock<BufferedImage> block) throws ClassifierCreationException {
         ImageSet imageSet = new ImageSet(block.getImageWidth(), block.getImageHeight());
         LOGGER.info("Loading images...");
 
@@ -37,7 +35,7 @@ public final class DefaultClassifierService implements ClassifierService {
             imageSet.loadImages(block.getTrainingsFile());
             imageSet.shuffle();
         } catch (DeepNettsException | FileNotFoundException ex) {
-            throw new ClassifierCreationException("Unable to load images from dataset", ex);
+            throw new ClassifierCreationException("Failed to load images from dataset", ex);
         }
 
         LOGGER.info("Done!");
@@ -48,7 +46,7 @@ public final class DefaultClassifierService implements ClassifierService {
             neuralNet = (ConvolutionalNetwork) FileIO.createFromJson(block.getNetworkArchitecture());
             neuralNet.setOutputLabels(imageSet.getTargetNames());
         } catch (IOException ex) {
-            throw new ClassifierCreationException("Unable to create convolutional network from JSON file", ex);
+            throw new ClassifierCreationException("Failed to create convolutional network from JSON file", ex);
         }
 
         LOGGER.info("Done!");
@@ -57,9 +55,9 @@ public final class DefaultClassifierService implements ClassifierService {
         // create a set of convolutional networks and do training, crossvalidation and performance evaluation
         BackpropagationTrainer trainer = new BackpropagationTrainer(neuralNet)
                 .setLearningRate(block.getLearningRate())
-                .setMaxEpochs(block.getMaxEpochs())
                 .setMomentum(0.7f)
                 .setMaxError(block.getMaxError())
+                .setMaxEpochs(block.getMaxEpochs())
                 .setBatchMode(false)
                 .setOptimizer(OptimizerType.SGD);
         trainer.train(imageSet);
@@ -68,13 +66,8 @@ public final class DefaultClassifierService implements ClassifierService {
         try {
             FileIO.writeToFile(neuralNet, block.getModelFile().getAbsolutePath());
         } catch (IOException ex) {
-            throw new ClassifierCreationException("Unable to write trained model to file", ex);
+            throw new ClassifierCreationException("Failed to write trained model to file", ex);
         }
-            return (ImageClassifier<T>) imageClassifier;
-    }
-
-    @Override
-    public BinaryClassifier createBinaryClassifier(BinaryClassifier.BuildingBlock block) throws ClassifierCreationException {
-        throw new UnsupportedOperationException("not implemented yet");
+        return imageClassifier;
     }
 }

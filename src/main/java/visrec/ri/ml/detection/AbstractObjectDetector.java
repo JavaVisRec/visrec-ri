@@ -20,13 +20,13 @@ import java.util.Objects;
  */
 public abstract class AbstractObjectDetector implements ObjectDetector<BufferedImage> {
 
-    private AbstractImageClassifier<Boolean> imageClassifier; // This should be binary classifier, that can detectObject some object / image
+    private AbstractImageClassifier<BufferedImage, Boolean> imageClassifier; // This should be binary classifier, that can detectObject some object / image
 
     /**
      * Creates an instance of the object detector
      * @param imageClassifier A {@link AbstractImageClassifier} which may not be null
      */
-    public AbstractObjectDetector(AbstractImageClassifier<Boolean> imageClassifier) {
+    public AbstractObjectDetector(AbstractImageClassifier<BufferedImage, Boolean> imageClassifier) {
         Objects.requireNonNull(imageClassifier, "A classifier is required for the object detector.");
         this.imageClassifier = imageClassifier;
     }
@@ -72,7 +72,7 @@ public abstract class AbstractObjectDetector implements ObjectDetector<BufferedI
      *
      * @return configured {@link AbstractImageClassifier} of the {@link AbstractObjectDetector}
      */
-    public AbstractImageClassifier<Boolean> getImageClassifier() {
+    public AbstractImageClassifier<BufferedImage, Boolean> getImageClassifier() {
         return imageClassifier;
     }
 
