@@ -12,6 +12,7 @@ import javax.visrec.ml.ClassifierCreationException;
 import javax.visrec.ml.classification.BinaryClassifier;
 import javax.visrec.ml.classification.ImageClassifier;
 import javax.visrec.spi.ClassifierService;
+import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -24,7 +25,10 @@ public final class DefaultClassifierService implements ClassifierService {
     private static final Logger LOGGER = Logger.getLogger(DefaultClassifierService.class.getName());
 
     @Override
-    public ImageClassifier createImageClassifier(ImageClassifier.BuildingBlock block) throws ClassifierCreationException {
+    public <T> ImageClassifier<T> createImageClassifier(ImageClassifier.BuildingBlock<T> block) throws ClassifierCreationException {
+        if(!block.getImageClass().equals(BufferedImage.class)) {
+            throw new ClassifierCreationException("Only BufferedImage is supported as image type");
+        }
         ImageSet imageSet = new ImageSet(block.getImageWidth(), block.getImageHeight());
         LOGGER.info("Loading images...");
 
@@ -53,6 +57,7 @@ public final class DefaultClassifierService implements ClassifierService {
         // create a set of convolutional networks and do training, crossvalidation and performance evaluation
         BackpropagationTrainer trainer = new BackpropagationTrainer(neuralNet)
                 .setLearningRate(block.getLearningRate())
+                .setMaxEpochs(block.getMaxEpochs())
                 .setMomentum(0.7f)
                 .setMaxError(block.getMaxError())
                 .setBatchMode(false)
@@ -65,7 +70,7 @@ public final class DefaultClassifierService implements ClassifierService {
         } catch (IOException ex) {
             throw new ClassifierCreationException("Unable to write trained model to file", ex);
         }
-        return imageClassifier;
+            return (ImageClassifier<T>) imageClassifier;
     }
 
     @Override
