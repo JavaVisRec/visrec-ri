@@ -5,42 +5,47 @@ import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 
-import javax.visrec.ml.classification.DeprecatedBinaryClassifier;
+import javax.visrec.ml.classification.BinaryClassifier;
 import javax.visrec.ml.data.DataSet;
 import javax.visrec.util.ModelProvider;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Implementation of a classifier using Feed Forward neural network in background for binary classification tasks.
  * 
  * @author Zoran
  */
-public class BinaryClassifierNetwork implements DeprecatedBinaryClassifier<float[]>, ModelProvider<FeedForwardNetwork> {
+public class BinaryClassifierNetwork implements ModelProvider<FeedForwardNetwork>, BinaryClassifier<float[]> {
 
     private FeedForwardNetwork model;
 
     public BinaryClassifierNetwork(FeedForwardNetwork model) {
         this.model = model;
     }
-    
-    private BinaryClassifierNetwork() {
-
-    }    
             
     @Override
     public FeedForwardNetwork getModel() {
         return model;
     }
 
+    @Deprecated
     public static Builder builder() {
         return new Builder();
     }
 
     @Override
-    public Float classify(float[] inputs) {
+    public Map<String, Float> classify(float[] inputs) {
         model.setInput(inputs);
-        return model.getOutput()[0];
+        Map<String, Float> output = new HashMap<>();
+        float[] outputValues = model.getOutput();
+        for (int i = 0; i < outputValues.length; i++) {
+            output.put(model.getOutputLabel(i), outputValues[i]);
+        }
+        return output;
     }
-    
+
+    @Deprecated
     public static class Builder implements javax.visrec.util.Builder<BinaryClassifierNetwork> {
 
         private float learningRate = 0.01f;
@@ -48,8 +53,6 @@ public class BinaryClassifierNetwork implements DeprecatedBinaryClassifier<float
         private int maxEpochs = 1000;
         private int inputsNum;
         private int[] hiddenLayers;
-        
-        BinaryClassifierNetwork buildingBlock = new BinaryClassifierNetwork();
 
         private DataSet<? extends DeepNettsDataSetItem> trainingSet; // replace with DataSet from visrec
 
@@ -100,12 +103,9 @@ public class BinaryClassifierNetwork implements DeprecatedBinaryClassifier<float
            ffn.getTrainer().setMaxEpochs(maxEpochs)
                            .setMaxError(maxError)
                            .setLearningRate(learningRate);
-           
            ffn.train(trainingSet);
-                       
-           buildingBlock.model = ffn;
-            
-           return buildingBlock;
+
+           return new BinaryClassifierNetwork(ffn);
         }
         
     }

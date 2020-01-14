@@ -7,8 +7,10 @@ import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.util.Tensor;
 
-import javax.visrec.ml.regression.LogisticRegression;
 import javax.visrec.ml.data.DataSet;
+import javax.visrec.ml.regression.LogisticRegression;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -17,11 +19,15 @@ import javax.visrec.ml.data.DataSet;
 public class LogisticRegressionNetwork extends LogisticRegression<FeedForwardNetwork> {
 
     @Override
-    public Float classify(float[] input) {
-      FeedForwardNetwork model = getModel();
-      model.setInput(Tensor.create(1, input.length, input)); //TODO: put array to input tensor placeholder
-      float[] output = model.getOutput();
-      return output[0];
+    public Map<String, Float> classify(float[] input) {
+        FeedForwardNetwork model = getModel();
+        model.setInput(Tensor.create(1, input.length, input)); //TODO: put array to input tensor placeholder
+        Map<String, Float> output = new HashMap<>();
+        float[] outputValues = model.getOutput();
+        for (int i = 0; i < outputValues.length; i++) {
+            output.put(model.getOutputLabel(i), outputValues[i]);
+        }
+        return output;
     }
 
     public static Builder builder() {
