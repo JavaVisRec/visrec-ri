@@ -8,8 +8,6 @@ import deepnetts.net.loss.LossType;
 import javax.visrec.ml.classification.BinaryClassifier;
 import javax.visrec.ml.data.DataSet;
 import javax.visrec.util.ModelProvider;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Implementation of a classifier using Feed Forward neural network in background for binary classification tasks.
@@ -35,14 +33,9 @@ public class BinaryClassifierNetwork implements ModelProvider<FeedForwardNetwork
     }
 
     @Override
-    public Map<String, Float> classify(float[] inputs) {
+    public Float classify(float[] inputs) {
         model.setInput(inputs);
-        Map<String, Float> output = new HashMap<>();
-        float[] outputValues = model.getOutput();
-        for (int i = 0; i < outputValues.length; i++) {
-            output.put(model.getOutputLabel(i), outputValues[i]);
-        }
-        return output;
+        return model.getOutput()[0];
     }
 
     @Deprecated

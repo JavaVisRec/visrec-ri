@@ -10,15 +10,15 @@ import visrec.ri.ml.classification.ImageClassifierNetwork;
 
 import javax.visrec.ml.ClassifierCreationException;
 import javax.visrec.ml.classification.ImageClassifier;
-import javax.visrec.spi.ImageClassifierCreator;
+import javax.visrec.spi.ImageClassifierFactory;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class BufferedImageClassifierCreator implements ImageClassifierCreator<BufferedImage> {
+public class BufferedImageClassifierFactory implements ImageClassifierFactory<BufferedImage> {
 
-    private static final Logger LOGGER = Logger.getLogger(BufferedImageClassifierCreator.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(BufferedImageClassifierFactory.class.getName());
 
     @Override
     public Class<BufferedImage> getImageClass() {

@@ -9,10 +9,11 @@ import visrec.ri.util.DataSets;
 
 import javax.visrec.ml.ClassifierCreationException;
 import javax.visrec.ml.classification.BinaryClassifier;
-import javax.visrec.spi.BinaryClassifierCreator;
+import javax.visrec.ml.classification.NeuralNetBinaryClassifier;
+import javax.visrec.spi.BinaryClassifierFactory;
 import java.io.IOException;
 
-public class FloatArrayBinaryClassifierCreator implements BinaryClassifierCreator<float[]> {
+public class FloatArrayBinaryClassifierFactory implements BinaryClassifierFactory<float[]> {
 
     @Override
     public Class<float[]> getTargetClass() {
@@ -20,7 +21,7 @@ public class FloatArrayBinaryClassifierCreator implements BinaryClassifierCreato
     }
 
     @Override
-    public BinaryClassifier<float[]> create(BinaryClassifier.BuildingBlock<float[]> block) throws ClassifierCreationException {
+    public BinaryClassifier<float[]> create(NeuralNetBinaryClassifier.BuildingBlock<float[]> block) throws ClassifierCreationException {
         FeedForwardNetwork.Builder ffnBuilder = FeedForwardNetwork.builder();
         ffnBuilder.addInputLayer(block.getInputsNum());
 
