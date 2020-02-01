@@ -10,6 +10,7 @@ import visrec.ri.ml.classification.ImageClassifierNetwork;
 
 import javax.visrec.ml.ClassifierCreationException;
 import javax.visrec.ml.classification.ImageClassifier;
+import javax.visrec.ml.classification.NeuralNetImageClassifier;
 import javax.visrec.spi.ImageClassifierFactory;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
@@ -26,13 +27,13 @@ public class BufferedImageClassifierFactory implements ImageClassifierFactory<Bu
     }
 
     @Override
-    public ImageClassifier<BufferedImage> create(ImageClassifier.BuildingBlock<BufferedImage> block) throws ClassifierCreationException {
+    public ImageClassifier<BufferedImage> create(NeuralNetImageClassifier.BuildingBlock<BufferedImage> block) throws ClassifierCreationException {
         ImageSet imageSet = new ImageSet(block.getImageWidth(), block.getImageHeight());
         LOGGER.info("Loading images...");
 
         imageSet.loadLabels(block.getLabelsFile());
         try {
-            imageSet.loadImages(block.getTrainingsFile());
+            imageSet.loadImages(block.getTrainingFile());
             imageSet.shuffle();
         } catch (DeepNettsException | FileNotFoundException ex) {
             throw new ClassifierCreationException("Failed to load images from dataset", ex);
