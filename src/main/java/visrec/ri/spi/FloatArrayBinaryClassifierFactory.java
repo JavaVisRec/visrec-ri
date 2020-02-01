@@ -4,7 +4,7 @@ import deepnetts.data.DeepNettsBasicDataSet;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
-import visrec.ri.ml.classification.BinaryClassifierNetwork;
+import visrec.ri.ml.classification.FeedForwardNetBinaryClassifier;
 import visrec.ri.util.DataSets;
 
 import javax.visrec.ml.ClassifierCreationException;
@@ -46,6 +46,6 @@ public class FloatArrayBinaryClassifierFactory implements BinaryClassifierFactor
             throw new ClassifierCreationException("Failed to create training set based on training file", e);
         }
         ffn.train(trainingSet);
-        return new BinaryClassifierNetwork(ffn);
+        return new FeedForwardNetBinaryClassifier(ffn);
     }
 }
