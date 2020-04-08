@@ -1,6 +1,6 @@
 package visrec.ri.ml.classification;
 
-import deepnetts.data.DeepNettsDataSetItem;
+import deepnetts.data.MLDataItem;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
@@ -43,7 +43,7 @@ public class MultiClassClassifierNetwork extends AbstractMultiClassClassifier<Fe
         private int outputsNum;
         private int[] hiddenLayers;
 
-        private DataSet<? extends DeepNettsDataSetItem>  trainingSet;
+        private DataSet<? extends MLDataItem>  trainingSet;
 
         @Override
         public MultiClassClassifierNetwork build() {
@@ -104,14 +104,11 @@ public class MultiClassClassifierNetwork extends AbstractMultiClassClassifier<Fe
             return this;
         }
 
-        public Builder trainingSet(DataSet<? extends DeepNettsDataSetItem>  trainingSet) {
+        public Builder trainingSet(DataSet<? extends MLDataItem>  trainingSet) {
             this.trainingSet = trainingSet;
             return this;
         }
 
-        @Override
-        public MultiClassClassifierNetwork build(Map prop) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
+
    }
 }

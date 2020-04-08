@@ -1,6 +1,6 @@
 package visrec.ri.ml.regression;
 
-import deepnetts.data.DeepNettsDataSetItem;
+import deepnetts.data.MLDataItem;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
@@ -56,7 +56,7 @@ public class SimpleLinearRegressionNetwork extends SimpleLinearRegression<FeedFo
         private float maxError = 0.03f;
         private int maxEpochs = 1000;
 
-        private DataSet<? extends DeepNettsDataSetItem> trainingSet; // replace with DataSet from visrec
+        private DataSet<? extends MLDataItem> trainingSet; // replace with DataSet from visrec
 
 
         public Builder learningRate(float learningRate) {
@@ -74,7 +74,7 @@ public class SimpleLinearRegressionNetwork extends SimpleLinearRegression<FeedFo
             return this;
         }
 
-        public Builder trainingSet(DataSet<? extends DeepNettsDataSetItem> trainingSet) {
+        public Builder trainingSet(DataSet<? extends MLDataItem> trainingSet) {
             this.trainingSet = trainingSet;
             return this;
         }

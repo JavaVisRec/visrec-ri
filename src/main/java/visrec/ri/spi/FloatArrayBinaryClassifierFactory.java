@@ -1,6 +1,7 @@
 package visrec.ri.spi;
 
-import deepnetts.data.DeepNettsBasicDataSet;
+import deepnetts.data.MLDataItem;
+import deepnetts.data.TabularDataSet;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
@@ -38,7 +39,7 @@ public class FloatArrayBinaryClassifierFactory implements BinaryClassifierFactor
                 .setMaxError(block.getMaxError())
                 .setLearningRate(block.getLearningRate());
 
-        DeepNettsBasicDataSet<DeepNettsBasicDataSet.Item> trainingSet = null;
+        TabularDataSet<MLDataItem> trainingSet = null;
         try {
             trainingSet = DataSets.readCsv(block.getTrainingFile(), block.getInputsNum(), 1, true, ",");
             deepnetts.data.DataSets.normalizeMax(trainingSet);

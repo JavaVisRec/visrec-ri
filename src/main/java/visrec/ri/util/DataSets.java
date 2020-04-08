@@ -1,6 +1,7 @@
 package visrec.ri.util;
 
-import deepnetts.data.DeepNettsBasicDataSet;
+import deepnetts.data.MLDataItem;
+import deepnetts.data.TabularDataSet;
 import deepnetts.util.DeepNettsException;
 
 import java.io.*;
@@ -34,8 +35,8 @@ public class DataSets {
      * Autodetetect delimiter; header and column type
      *
      */
-    public static DeepNettsBasicDataSet<DeepNettsBasicDataSet.Item> readCsv(File csvFile, int numInputs, int numOutputs, boolean hasColumnNames, String delimiter) throws FileNotFoundException, IOException {
-        DeepNettsBasicDataSet<DeepNettsBasicDataSet.Item> dataSet = new DeepNettsBasicDataSet<>(numInputs, numOutputs);
+    public static TabularDataSet<MLDataItem> readCsv(File csvFile, int numInputs, int numOutputs, boolean hasColumnNames, String delimiter) throws FileNotFoundException, IOException {
+        TabularDataSet<MLDataItem> dataSet = new TabularDataSet<>(numInputs, numOutputs);
         BufferedReader br = new BufferedReader(new FileReader(csvFile));
         String line=null;
         // auto detect column names - ako sadrzi slova onda ima imena. Sta ako su atributi nominalni? U ovoj fazi se pretpostavlja d anisu...
@@ -80,7 +81,7 @@ public class DataSets {
             } catch (NumberFormatException nex) {
                 throw new DeepNettsException("Error parsing csv, number expected line in " + (dataSet.size() + 1) + ": " + nex.getMessage(), nex);
             }
-            dataSet.add(new DeepNettsBasicDataSet.Item(in, out));
+            dataSet.add(new TabularDataSet.Item(in, out));
         }
 
         return dataSet;
