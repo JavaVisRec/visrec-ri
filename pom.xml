@@ -6,7 +6,7 @@
 
     <groupId>javax.visrec</groupId>
     <artifactId>visrec-ri</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -98,15 +98,15 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
-        <!--<repository>-->
-        <!--<id>ossrh</id>-->
-        <!--<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
-        <!--</repository>-->
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
     </distributionManagement>
 
     <build>
         <plugins>
-            <!--plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
                 <version>1.5</version>
@@ -117,9 +117,16 @@
                         <goals>
                             <goal>sign</goal>
                         </goals>
+                        <configuration>
+                            <!-- Prevent `gpg` from using pinentry programs -->
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
                     </execution>
                 </executions>
-            </plugin-->
+            </plugin>
 
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
@@ -133,14 +140,14 @@
                 </configuration>
             </plugin>
 
-            <!-- zoran: this caused errors for me-->
             <plugin>
                 <inherited>true</inherited>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
+                <version>3.1.0</version>
                 <configuration>
                     <linksource>true</linksource>
+                    <doclint>none</doclint>  <!-- Disable ASAP -->
                 </configuration>
                 <executions>
                     <execution>
