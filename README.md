@@ -1,5 +1,7 @@
 # VisRec API JSR381 Reference implementation 
-[![Build Status](https://travis-ci.com/JavaVisRec/visrec-ri.svg?branch=master)](https://travis-ci.com/JavaVisRec/visrec-ri)    
+![build](https://github.com/JavaVisRec/visrec-ri/workflows/build/badge.svg) 
+![Sonatype Nexus (Releases)](https://img.shields.io/nexus/r/javax.visrec/visrec-ri?label=maven%20central&server=https%3A%2F%2Foss.sonatype.org%2F)
+
 The repository contains the source code of the reference implementation of JSR 381, 
 a standardization in Java for Visual Recognition.
 
