@@ -1,4 +1,4 @@
-package visrec.ri.spi;
+package javax.visrec.ri.spi;
 
 import deepnetts.data.ImageSet;
 import deepnetts.net.ConvolutionalNetwork;
@@ -6,7 +6,7 @@ import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.net.train.opt.OptimizerType;
 import deepnetts.util.DeepNettsException;
 import deepnetts.util.FileIO;
-import visrec.ri.ml.classification.ImageClassifierNetwork;
+import javax.visrec.ri.ml.classification.ImageClassifierNetwork;
 
 import javax.visrec.ml.ClassifierCreationException;
 import javax.visrec.ml.classification.ImageClassifier;

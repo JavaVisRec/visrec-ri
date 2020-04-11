@@ -1,4 +1,4 @@
-package visrec.ri;
+package javax.visrec.ri;
 
 import javax.imageio.ImageIO;
 import javax.visrec.ImageFactory;

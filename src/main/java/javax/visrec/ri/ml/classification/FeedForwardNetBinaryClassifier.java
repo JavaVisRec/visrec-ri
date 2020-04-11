@@ -1,4 +1,4 @@
-package visrec.ri.ml.classification;
+package javax.visrec.ri.ml.classification;
 
 import deepnetts.net.FeedForwardNetwork;
 

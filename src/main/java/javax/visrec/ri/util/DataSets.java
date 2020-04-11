@@ -1,4 +1,4 @@
-package visrec.ri.util;
+package javax.visrec.ri.util;
 
 import deepnetts.data.MLDataItem;
 import deepnetts.data.TabularDataSet;

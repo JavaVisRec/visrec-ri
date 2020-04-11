@@ -1,12 +1,12 @@
-package visrec.ri.spi;
+package javax.visrec.ri.spi;
 
 import deepnetts.data.MLDataItem;
 import deepnetts.data.TabularDataSet;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
-import visrec.ri.ml.classification.FeedForwardNetBinaryClassifier;
-import visrec.ri.util.DataSets;
+import javax.visrec.ri.ml.classification.FeedForwardNetBinaryClassifier;
+import javax.visrec.ri.util.DataSets;
 
 import javax.visrec.ml.ClassifierCreationException;
 import javax.visrec.ml.classification.BinaryClassifier;

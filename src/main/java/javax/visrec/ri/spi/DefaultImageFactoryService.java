@@ -1,6 +1,6 @@
-package visrec.ri.spi;
+package javax.visrec.ri.spi;
 
-import visrec.ri.BufferedImageFactory;
+import javax.visrec.ri.BufferedImageFactory;
 
 import javax.visrec.ImageFactory;
 import javax.visrec.spi.ImageFactoryService;

@@ -1,4 +1,4 @@
-package visrec.ri.ml.regression;
+package javax.visrec.ri.ml.regression;
 
 import deepnetts.data.MLDataItem;
 import deepnetts.net.FeedForwardNetwork;

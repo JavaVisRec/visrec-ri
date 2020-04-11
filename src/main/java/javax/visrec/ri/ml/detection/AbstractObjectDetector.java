@@ -1,4 +1,4 @@
-package visrec.ri.ml.detection;
+package javax.visrec.ri.ml.detection;
 
 import javax.visrec.AbstractImageClassifier;
 import javax.visrec.ml.ClassificationException;

@@ -1,4 +1,4 @@
-package visrec.ri.spi;
+package javax.visrec.ri.spi;
 
 import javax.visrec.spi.*;
 

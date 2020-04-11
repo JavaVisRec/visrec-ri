@@ -7,7 +7,7 @@ import javax.visrec.spi.ImageFactoryService;
 import javax.visrec.spi.ServiceProvider;
 import java.awt.image.BufferedImage;
 import java.util.Optional;
-import visrec.ri.BufferedImageFactory;
+import javax.visrec.ri.BufferedImageFactory;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
