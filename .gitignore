@@ -6,3 +6,4 @@ build/**
 target/**
 *.asc
 /target/
+nb*.xml
