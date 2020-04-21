@@ -65,7 +65,7 @@ public class BufferedImageClassifierFactory implements ImageClassifierFactory<Bu
 
         ImageClassifierNetwork imageClassifier = new ImageClassifierNetwork(neuralNet);
         try {
-            FileIO.writeToFile(neuralNet, block.getModelFile().getAbsolutePath());
+            FileIO.writeToFile(neuralNet, block.getExportPath().toFile().getAbsolutePath());
         } catch (IOException ex) {
             throw new ClassifierCreationException("Failed to write trained model to file", ex);
         }
