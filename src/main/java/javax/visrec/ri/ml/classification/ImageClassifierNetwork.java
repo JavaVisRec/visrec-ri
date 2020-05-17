@@ -68,6 +68,7 @@ public class ImageClassifierNetwork extends AbstractImageClassifier<BufferedImag
         return new Builder();
     }
 
+    @Deprecated
     public static class Builder implements javax.visrec.util.Builder<ImageClassifierNetwork> {
 
         private final Logger LOGGER = Logger.getLogger(ImageClassifierNetwork.class.getName());
@@ -79,6 +80,8 @@ public class ImageClassifierNetwork extends AbstractImageClassifier<BufferedImag
 
         @Override
         public ImageClassifierNetwork build(Map<String, Object> config) {
+
+
             int imageWidth = Integer.parseInt(String.valueOf(config.get(VisRecConstants.IMAGE_WIDTH)));
             int imageHeight = Integer.parseInt(String.valueOf(config.get(VisRecConstants.IMAGE_HEIGHT)));
             String labelsFile = String.valueOf(config.get(VisRecConstants.LABELS_FILE));
@@ -97,7 +100,7 @@ public class ImageClassifierNetwork extends AbstractImageClassifier<BufferedImag
             imageSet.loadLabels(new File(labelsFile));
             try {
                 imageSet.loadImages(new File(trainingFile), 1000); // paths in training file should be relative
-               // imageSet.invert(); // donw while loading and set flag
+                // imageSet.invert(); // donw while loading and set flag
                 //  imageSet.zeroMean();
                 imageSet.shuffle();
             } catch (DeepNettsException ex) {
