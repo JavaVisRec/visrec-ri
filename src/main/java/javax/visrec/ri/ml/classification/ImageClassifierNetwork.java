@@ -34,9 +34,9 @@ public class ImageClassifierNetwork extends AbstractImageClassifier<BufferedImag
     }
 
     @Override
-    public Map<String, Float> classify(BufferedImage sample) {
+    public Map<String, Float> classify(BufferedImage inputImage) {
         // create input for neural network from image
-        ExampleImage exImage = new ExampleImage(sample);
+        ExampleImage exImage = new ExampleImage(inputImage);
 
         // get underlying ML model, in this case convolutional network
         ConvolutionalNetwork neuralNet = getModel();
