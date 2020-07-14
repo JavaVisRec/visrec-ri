@@ -6,7 +6,7 @@
 
     <groupId>javax.visrec</groupId>
     <artifactId>visrec-ri</artifactId>
-    <version>1.0.0${version.suffix}</version>
+    <version>1.0.2-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,6 +15,17 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>javax.visrec</groupId>
+            <artifactId>visrec-api</artifactId>
+            <version>1.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.deepnetts</groupId>
+            <artifactId>deepnetts-core</artifactId>
+            <version>1.12</version>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
@@ -34,16 +45,6 @@
             <artifactId>junit-vintage-engine</artifactId>
             <version>5.1.0</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.visrec</groupId>
-            <artifactId>visrec-api</artifactId>
-            <version>1.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.deepnetts</groupId>
-            <artifactId>deepnetts-core</artifactId>
-            <version>1.11</version>
         </dependency>
     </dependencies>
 
@@ -113,7 +114,7 @@
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
-                        <phase>verify</phase>
+                        <phase>deploy</phase>
                         <goals>
                             <goal>sign</goal>
                         </goals>

@@ -6,15 +6,17 @@ import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.net.train.opt.OptimizerType;
 import deepnetts.util.DeepNettsException;
 import deepnetts.util.FileIO;
-import javax.visrec.ri.ml.classification.ImageClassifierNetwork;
 
 import javax.visrec.ml.ClassifierCreationException;
 import javax.visrec.ml.classification.ImageClassifier;
 import javax.visrec.ml.classification.NeuralNetImageClassifier;
+import javax.visrec.ri.ml.classification.ImageClassifierNetwork;
 import javax.visrec.spi.ImageClassifierFactory;
 import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.logging.Logger;
 
 public class BufferedImageClassifierFactory implements ImageClassifierFactory<BufferedImage> {
@@ -28,6 +30,23 @@ public class BufferedImageClassifierFactory implements ImageClassifierFactory<Bu
 
     @Override
     public ImageClassifier<BufferedImage> create(NeuralNetImageClassifier.BuildingBlock<BufferedImage> block) throws ClassifierCreationException {
+        if (block.getImportPath() != null) {
+            return onImport(block);
+        }
+        return onCreate(block);
+    }
+
+    private ImageClassifier<BufferedImage> onImport(NeuralNetImageClassifier.BuildingBlock<BufferedImage> block) throws ClassifierCreationException {
+        try {
+            ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(block.getImportPath().toFile()));
+            ConvolutionalNetwork model = (ConvolutionalNetwork) inputStream.readObject();
+            return new ImageClassifierNetwork(model);
+        } catch (IOException | ClassNotFoundException e) {
+            throw new ClassifierCreationException("Failed to import existing model", e);
+        }
+    }
+
+    private ImageClassifier<BufferedImage> onCreate(NeuralNetImageClassifier.BuildingBlock<BufferedImage> block) throws ClassifierCreationException {
         ImageSet imageSet = new ImageSet(block.getImageWidth(), block.getImageHeight());
         LOGGER.info("Loading images...");
 
