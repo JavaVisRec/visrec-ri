@@ -12,7 +12,6 @@ import javax.visrec.ml.regression.LogisticRegression;
 
 /**
  *
- * @author zoran
  */
 public class LogisticRegressionNetwork extends LogisticRegression<FeedForwardNetwork> {
 
@@ -27,10 +26,7 @@ public class LogisticRegressionNetwork extends LogisticRegression<FeedForwardNet
         return new Builder();
     }
 
-    // TODO: add static builder class and method
-
-   public static class Builder implements javax.visrec.util.Builder<LogisticRegressionNetwork> {
-
+    public static class Builder implements javax.visrec.util.Builder<LogisticRegressionNetwork> {
 
         private float learningRate = 0.01f;
         private float maxError = 0.03f;
@@ -66,22 +62,22 @@ public class LogisticRegressionNetwork extends LogisticRegression<FeedForwardNet
 
         // test set
         // target accuracy
-
         @Override
         public LogisticRegressionNetwork build() {
-            FeedForwardNetwork model= FeedForwardNetwork.builder()
-                                        .addInputLayer(inputsNum)
-                                        .addOutputLayer(1, ActivationType.SIGMOID)
-                                        .lossFunction(LossType.CROSS_ENTROPY)
-                                        .build();
+            FeedForwardNetwork model = FeedForwardNetwork.builder()
+                    .addInputLayer(inputsNum)
+                    .addOutputLayer(1, ActivationType.SIGMOID)
+                    .lossFunction(LossType.CROSS_ENTROPY)
+                    .build();
 
             BackpropagationTrainer trainer = new BackpropagationTrainer(model);
             trainer.setLearningRate(learningRate)
                     .setMaxEpochs(maxEpochs)
                     .setMaxError(maxError);
 
-            if (trainingSet!=null)
+            if (trainingSet != null) {
                 trainer.train(trainingSet);
+            }
 
             LogisticRegressionNetwork product = new LogisticRegressionNetwork();
             product.setModel(model);

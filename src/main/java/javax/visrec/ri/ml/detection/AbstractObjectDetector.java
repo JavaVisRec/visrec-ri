@@ -16,11 +16,10 @@ import java.util.Objects;
  * Abstract object detector which implements {@link ObjectDetector} to return the positions
  * of an object within the given image.
  *
- * @author Zoran Sevarac
  */
 public abstract class AbstractObjectDetector implements ObjectDetector<BufferedImage> {
 
-    private AbstractImageClassifier<BufferedImage, Boolean> imageClassifier; // This should be binary classifier, that can detectObject some object / image
+    private AbstractImageClassifier<BufferedImage, Boolean> imageClassifier;
 
     /**
      * Creates an instance of the object detector
@@ -68,7 +67,7 @@ public abstract class AbstractObjectDetector implements ObjectDetector<BufferedI
     }
 
     /**
-     * Subclasses should use ths method to use the underlying image classifier
+     * Subclasses should use this method to use the underlying image classifier
      *
      * @return configured {@link AbstractImageClassifier} of the {@link AbstractObjectDetector}
      */

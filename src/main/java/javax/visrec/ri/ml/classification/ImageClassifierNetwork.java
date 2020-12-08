@@ -47,9 +47,8 @@ public class ImageClassifierNetwork extends AbstractImageClassifier<BufferedImag
         // get all class labels with corresponding output larger then classification threshold
         Map<String, Float> results = new HashMap<>();
         for (int i = 0; i < outputs.length; i++) {
-            if (outputs[i] > getThreshold()) {
-                results.put(neuralNet.getOutputLabel(i), outputs[i]); // if : threshold_
-            }
+          //  if (outputs[i] > getThreshold())
+            results.put(neuralNet.getOutputLabel(i), outputs[i]); // if : threshold_            
         }
 
         return results;

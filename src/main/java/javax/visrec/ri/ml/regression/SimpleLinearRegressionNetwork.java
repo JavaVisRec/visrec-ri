@@ -103,16 +103,6 @@ public class SimpleLinearRegressionNetwork extends SimpleLinearRegression<FeedFo
             return buildingBlock;
         }
 
-        public SimpleLinearRegressionNetwork build(Map prop) {
-            // set properties from prop
-            // iterate properties and set corresponding attributes using reflection - can be default method
-//            for(String propName : prop.keySet()) {
-//
-//            }
-
-            return build();
-        }
-
 
     }
 }

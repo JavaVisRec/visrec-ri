@@ -31,8 +31,6 @@ public class MultiClassClassifierNetwork extends AbstractMultiClassClassifier<Fe
         return new Builder();
     }
 
-    // TODO: add static builder class and method
-
    public static class Builder implements javax.visrec.util.Builder<MultiClassClassifierNetwork> {
         private MultiClassClassifierNetwork building = new MultiClassClassifierNetwork();
 
