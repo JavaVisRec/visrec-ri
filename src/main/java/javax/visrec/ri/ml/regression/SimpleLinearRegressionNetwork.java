@@ -49,7 +49,7 @@ public class SimpleLinearRegressionNetwork extends SimpleLinearRegression<FeedFo
     }
 
 
-    public static class Builder implements javax.visrec.util.Builder<SimpleLinearRegressionNetwork> {
+    public static class Builder implements javax.visrec.ml.model.ModelBuilder<SimpleLinearRegressionNetwork> {
         private SimpleLinearRegressionNetwork buildingBlock = new SimpleLinearRegressionNetwork();
 
         private float learningRate = 0.01f;

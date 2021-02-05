@@ -36,7 +36,7 @@ public class ZeroRuleClassifier<T, R> implements Classifier<T, Map<String, Float
         }
         
         public ZeroRuleClassifierBuilder trainingSet(DataSet<MLDataItem> dataSet) {
-            int[] classCount = new int[dataSet.getTargetNames().length];
+            int[] classCount = new int[dataSet.get(0).getTargetOutput().size()]; // dataSet.getTargetNames().length
             for(MLDataItem ml : dataSet.getItems()) {
                 float[] cols = ml.getTargetOutput().getValues();
                 for(int i=0; i<cols.length; i++) {

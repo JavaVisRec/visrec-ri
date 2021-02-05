@@ -2,14 +2,14 @@ package visrec.ri.util;
 
 import org.junit.jupiter.api.Test;
 
-import javax.visrec.ml.ClassifierCreationException;
-import javax.visrec.util.Builder;
-import javax.visrec.util.InvalidBuilderConfigurationException;
+import javax.visrec.ml.model.ModelCreationException;
+import javax.visrec.ml.model.InvalidConfigurationException;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+import javax.visrec.ml.model.ModelBuilder;
 
 /**
  * @author Kevin Berendsen
@@ -20,7 +20,7 @@ public class BuilderConfigurationTest {
      * Successfully build the output of the builder.
      */
     @Test
-    public void testReflectionInvocationBuild() throws ClassifierCreationException {
+    public void testReflectionInvocationBuild() throws ModelCreationException {
         Map<String, String> trainingSet = new HashMap<>();
         trainingSet.put("hello", "world");
         trainingSet.put("lorem", "ipsum");
@@ -46,14 +46,14 @@ public class BuilderConfigurationTest {
         try {
             builder.build(configuration);
             fail("The configuration is invalid and should throw the InvalidBuilderConfigurationException");
-        } catch (InvalidBuilderConfigurationException | ClassifierCreationException e) {
+        } catch (ModelCreationException e) {
             /* Expected */
         }
     }
 
 
 
-    public static class BuilderImpl implements Builder<String> {
+    public static class BuilderImpl implements ModelBuilder<String> {
 
         private Map<String, String> trainingSet;
 

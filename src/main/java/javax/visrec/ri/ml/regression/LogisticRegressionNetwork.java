@@ -6,10 +6,11 @@ import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.util.Tensor;
+import javax.visrec.ml.model.ModelCreationException;
 
 import javax.visrec.ml.classification.LogisticRegression;
 import javax.visrec.ml.data.DataSet;
-import javax.visrec.ml.regression.LogisticRegression;
+
 
 /**
  *
@@ -26,8 +27,10 @@ public class LogisticRegressionNetwork extends LogisticRegression<FeedForwardNet
     public static Builder builder() {
         return new Builder();
     }
+    
+    
 
-    public static class Builder implements javax.visrec.util.Builder<LogisticRegressionNetwork> {
+    public static class Builder implements javax.visrec.ml.model.ModelBuilder<LogisticRegressionNetwork> {
 
         private float learningRate = 0.01f;
         private float maxError = 0.03f;

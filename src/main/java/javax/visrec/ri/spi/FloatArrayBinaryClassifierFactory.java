@@ -7,7 +7,7 @@ import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
 
 import javax.visrec.ml.classification.BinaryClassifier;
-import javax.visrec.ml.classification.ClassifierCreationException;
+import javax.visrec.ml.model.ModelCreationException;
 import javax.visrec.ml.classification.NeuralNetBinaryClassifier;
 import javax.visrec.ri.ml.classification.FeedForwardNetBinaryClassifier;
 import javax.visrec.ri.util.DataSets;
@@ -22,7 +22,7 @@ public class FloatArrayBinaryClassifierFactory implements BinaryClassifierFactor
     }
 
     @Override
-    public BinaryClassifier<float[]> create(NeuralNetBinaryClassifier.BuildingBlock<float[]> block) throws ClassifierCreationException {
+    public BinaryClassifier<float[]> create(NeuralNetBinaryClassifier.BuildingBlock<float[]> block) throws ModelCreationException {
         FeedForwardNetwork.Builder ffnBuilder = FeedForwardNetwork.builder();
         ffnBuilder.addInputLayer(block.getInputsNum());
 
@@ -42,9 +42,9 @@ public class FloatArrayBinaryClassifierFactory implements BinaryClassifierFactor
         TabularDataSet<MLDataItem> trainingSet = null;
         try {
             trainingSet = DataSets.readCsv(block.getTrainingPath().toFile(), block.getInputsNum(), 1, true, ",");
-            deepnetts.data.DataSets.normalizeMax(trainingSet);
+            //deepnetts.data.DataSets.normalizeMax(trainingSet);
         } catch (IOException e) {
-            throw new ClassifierCreationException("Failed to create training set based on training file", e);
+            throw new ModelCreationException("Failed to create training set based on training file", e);
         }
         ffn.train(trainingSet);
         return new FeedForwardNetBinaryClassifier(ffn);

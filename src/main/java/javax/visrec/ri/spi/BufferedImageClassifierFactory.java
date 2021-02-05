@@ -7,7 +7,7 @@ import deepnetts.net.train.opt.OptimizerType;
 import deepnetts.util.DeepNettsException;
 import deepnetts.util.FileIO;
 
-import javax.visrec.ml.classification.ClassifierCreationException;
+import javax.visrec.ml.model.ModelCreationException;
 import javax.visrec.ml.classification.ImageClassifier;
 import javax.visrec.ml.classification.NeuralNetImageClassifier;
 import javax.visrec.ri.ml.classification.ImageClassifierNetwork;
@@ -29,24 +29,24 @@ public class BufferedImageClassifierFactory implements ImageClassifierFactory<Bu
     }
 
     @Override
-    public ImageClassifier<BufferedImage> create(NeuralNetImageClassifier.BuildingBlock<BufferedImage> block) throws ClassifierCreationException {
+    public ImageClassifier<BufferedImage> create(NeuralNetImageClassifier.BuildingBlock<BufferedImage> block) throws ModelCreationException {
         if (block.getImportPath() != null) {
             return onImport(block);
         }
         return onCreate(block);
     }
 
-    private ImageClassifier<BufferedImage> onImport(NeuralNetImageClassifier.BuildingBlock<BufferedImage> block) throws ClassifierCreationException {
+    private ImageClassifier<BufferedImage> onImport(NeuralNetImageClassifier.BuildingBlock<BufferedImage> block) throws ModelCreationException {
         try {
             ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(block.getImportPath().toFile()));
             ConvolutionalNetwork model = (ConvolutionalNetwork) inputStream.readObject();
             return new ImageClassifierNetwork(model);
         } catch (IOException | ClassNotFoundException e) {
-            throw new ClassifierCreationException("Failed to import existing model", e);
+            throw new ModelCreationException("Failed to import existing model", e);
         }
     }
 
-    private ImageClassifier<BufferedImage> onCreate(NeuralNetImageClassifier.BuildingBlock<BufferedImage> block) throws ClassifierCreationException {
+    private ImageClassifier<BufferedImage> onCreate(NeuralNetImageClassifier.BuildingBlock<BufferedImage> block) throws ModelCreationException {
         ImageSet imageSet = new ImageSet(block.getImageWidth(), block.getImageHeight());
         LOGGER.info("Loading images...");
 
@@ -55,7 +55,7 @@ public class BufferedImageClassifierFactory implements ImageClassifierFactory<Bu
             imageSet.loadImages(block.getTrainingPath().toFile());
             imageSet.shuffle();
         } catch (DeepNettsException | FileNotFoundException ex) {
-            throw new ClassifierCreationException("Failed to load images from dataset", ex);
+            throw new ModelCreationException("Failed to load images from dataset", ex);
         }
 
         LOGGER.info("Done!");
@@ -66,7 +66,7 @@ public class BufferedImageClassifierFactory implements ImageClassifierFactory<Bu
             neuralNet = (ConvolutionalNetwork) FileIO.createFromJson(block.getNetworkArchitecture().toFile());
             neuralNet.setOutputLabels(imageSet.getTargetNames());
         } catch (IOException ex) {
-            throw new ClassifierCreationException("Failed to create convolutional network from JSON file", ex);
+            throw new ModelCreationException("Failed to create convolutional network from JSON file", ex);
         }
 
         LOGGER.info("Done!");
@@ -86,7 +86,7 @@ public class BufferedImageClassifierFactory implements ImageClassifierFactory<Bu
         try {
             FileIO.writeToFile(neuralNet, block.getExportPath().toFile().getAbsolutePath());
         } catch (IOException ex) {
-            throw new ClassifierCreationException("Failed to write trained model to file", ex);
+            throw new ModelCreationException("Failed to write trained model to file", ex);
         }
         return imageClassifier;
     }

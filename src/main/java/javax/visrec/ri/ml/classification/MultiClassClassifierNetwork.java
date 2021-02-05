@@ -10,6 +10,7 @@ import deepnetts.util.Tensor;
 import javax.visrec.ml.classification.AbstractMultiClassClassifier;
 import java.util.HashMap;
 import java.util.Map;
+import javax.visrec.ml.model.ModelCreationException;
 import javax.visrec.ml.data.DataSet;
 
 public class MultiClassClassifierNetwork extends AbstractMultiClassClassifier<FeedForwardNetwork, float[], String> {
@@ -31,7 +32,7 @@ public class MultiClassClassifierNetwork extends AbstractMultiClassClassifier<Fe
         return new Builder();
     }
 
-   public static class Builder implements javax.visrec.util.Builder<MultiClassClassifierNetwork> {
+   public static class Builder implements javax.visrec.ml.model.ModelBuilder<MultiClassClassifierNetwork> {
         private MultiClassClassifierNetwork building = new MultiClassClassifierNetwork();
 
         private float learningRate = 0.01f;
