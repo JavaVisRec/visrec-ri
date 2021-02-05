@@ -3,7 +3,6 @@ package javax.visrec.ri.ml.classification;
 import deepnetts.data.ExampleImage;
 import deepnetts.net.ConvolutionalNetwork;
 
-import javax.visrec.ml.classification.AbstractImageClassifier;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;

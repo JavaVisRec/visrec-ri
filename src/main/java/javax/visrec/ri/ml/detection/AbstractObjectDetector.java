@@ -1,6 +1,6 @@
 package javax.visrec.ri.ml.detection;
 
-import javax.visrec.ml.classification.AbstractImageClassifier;
+import javax.visrec.ri.ml.classification.AbstractImageClassifier;
 import javax.visrec.ml.classification.ClassificationException;
 import javax.visrec.ml.detection.BoundingBox;
 import javax.visrec.ml.detection.ObjectDetector;
