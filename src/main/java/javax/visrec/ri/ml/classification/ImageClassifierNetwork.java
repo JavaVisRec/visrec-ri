@@ -3,7 +3,7 @@ package javax.visrec.ri.ml.classification;
 import deepnetts.data.ExampleImage;
 import deepnetts.net.ConvolutionalNetwork;
 
-import javax.visrec.AbstractImageClassifier;
+import javax.visrec.ml.classification.AbstractImageClassifier;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,8 +37,8 @@ public class ImageClassifierNetwork extends AbstractImageClassifier<BufferedImag
         // get all class labels with corresponding output larger then classification threshold
         Map<String, Float> results = new HashMap<>();
         for (int i = 0; i < outputs.length; i++) {
-           if (outputs[i] >= getThreshold())
-                results.put(neuralNet.getOutputLabel(i), outputs[i]);         
+            if (outputs[i] >= getThreshold())
+                results.put(neuralNet.getOutputLabel(i), outputs[i]);
         }
 
         return results;

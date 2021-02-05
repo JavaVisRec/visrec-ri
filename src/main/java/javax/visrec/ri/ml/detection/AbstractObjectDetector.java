@@ -1,13 +1,13 @@
 package javax.visrec.ri.ml.detection;
 
-import javax.visrec.AbstractImageClassifier;
-import javax.visrec.ml.ClassificationException;
+import javax.visrec.ml.classification.AbstractImageClassifier;
+import javax.visrec.ml.classification.ClassificationException;
+import javax.visrec.ml.detection.BoundingBox;
 import javax.visrec.ml.detection.ObjectDetector;
-import javax.visrec.util.BoundingBox;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -15,7 +15,6 @@ import java.util.Objects;
 /**
  * Abstract object detector which implements {@link ObjectDetector} to return the positions
  * of an object within the given image.
- *
  */
 public abstract class AbstractObjectDetector implements ObjectDetector<BufferedImage> {
 
@@ -23,6 +22,7 @@ public abstract class AbstractObjectDetector implements ObjectDetector<BufferedI
 
     /**
      * Creates an instance of the object detector
+     *
      * @param imageClassifier A {@link AbstractImageClassifier} which may not be null
      */
     public AbstractObjectDetector(AbstractImageClassifier<BufferedImage, Boolean> imageClassifier) {
@@ -42,23 +42,25 @@ public abstract class AbstractObjectDetector implements ObjectDetector<BufferedI
 
     /**
      * Detect the object based on the given {@code File}.
-     * @param file Image file.
+     *
+     * @param path Image file.
      * @return {@code Map} of {@link BoundingBox} of where the object
      * has been detected.
-     * @throws IOException if the image couldn't be retrieved from storage.
+     * @throws IOException             if the image couldn't be retrieved from storage.
      * @throws ClassificationException when the detector was unable to classify and detect the input
      */
-    public Map<String, List<BoundingBox>> detect(File file) throws IOException, ClassificationException {
-        BufferedImage image = imageClassifier.getImageFactory().getImage(file);
+    public Map<String, List<BoundingBox>> detect(Path path) throws IOException, ClassificationException {
+        BufferedImage image = imageClassifier.getImageFactory().getImage(path);
         return detectObject(image);
     }
 
     /**
      * Detect the object based on the given {@code InputStream}.
+     *
      * @param inStream {@code InputStream} of the image
      * @return {@code Map} of {@link BoundingBox} of where the object
      * has been detected.
-     * @throws IOException if the image couldn't be retrieved from storage.
+     * @throws IOException             if the image couldn't be retrieved from storage.
      * @throws ClassificationException when the detector was unable to classify and detect the input
      */
     public Map<String, List<BoundingBox>> detect(InputStream inStream) throws IOException, ClassificationException {

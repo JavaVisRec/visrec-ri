@@ -1,8 +1,8 @@
 package javax.visrec.ri.ml.detection;
 
-import javax.visrec.AbstractImageClassifier;
-import javax.visrec.ml.ClassificationException;
-import javax.visrec.util.BoundingBox;
+import javax.visrec.ml.classification.AbstractImageClassifier;
+import javax.visrec.ml.classification.ClassificationException;
+import javax.visrec.ml.detection.BoundingBox;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +19,7 @@ public class SimpleObjectDetector extends AbstractObjectDetector {
 
     /**
      * Creates an instance
+     *
      * @param classifier A {@link AbstractImageClassifier} which may not be null
      */
     public SimpleObjectDetector(AbstractImageClassifier<BufferedImage, Boolean> classifier) {
@@ -28,7 +29,7 @@ public class SimpleObjectDetector extends AbstractObjectDetector {
     /**
      * Scan image using brute force sliding window and return positions where
      * classifier returns score greater then threshold.
-     *
+     * <p>
      * get width and height of the image and scan image with classifier - apply
      * classifier to each position This is trivial implementation and should be
      * replaced with something better
@@ -61,6 +62,7 @@ public class SimpleObjectDetector extends AbstractObjectDetector {
 
     /**
      * Get the threshold
+     *
      * @return theshold as {@code double}
      */
     public double getThreshold() {
@@ -69,6 +71,7 @@ public class SimpleObjectDetector extends AbstractObjectDetector {
 
     /**
      * Set the threshold
+     *
      * @param threshold as {@code double}
      */
     public void setThreshold(double threshold) {

@@ -3,11 +3,10 @@ package javax.visrec.ri.ml.classification;
 import deepnetts.net.FeedForwardNetwork;
 
 import javax.visrec.ml.classification.NeuralNetBinaryClassifier;
-import javax.visrec.util.ModelProvider;
+import javax.visrec.ml.model.ModelProvider;
 
 /**
  * Implementation of a classifier using Feed Forward neural network in background for binary classification tasks.
- * 
  */
 public class FeedForwardNetBinaryClassifier implements ModelProvider<FeedForwardNetwork>, NeuralNetBinaryClassifier<float[]> {
 
@@ -16,7 +15,7 @@ public class FeedForwardNetBinaryClassifier implements ModelProvider<FeedForward
     public FeedForwardNetBinaryClassifier(FeedForwardNetwork model) {
         this.model = model;
     }
-            
+
     @Override
     public FeedForwardNetwork getModel() {
         return model;

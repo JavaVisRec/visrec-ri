@@ -5,12 +5,12 @@ import deepnetts.data.TabularDataSet;
 import deepnetts.net.FeedForwardNetwork;
 import deepnetts.net.layers.activation.ActivationType;
 import deepnetts.net.loss.LossType;
+
+import javax.visrec.ml.classification.BinaryClassifier;
+import javax.visrec.ml.classification.ClassifierCreationException;
+import javax.visrec.ml.classification.NeuralNetBinaryClassifier;
 import javax.visrec.ri.ml.classification.FeedForwardNetBinaryClassifier;
 import javax.visrec.ri.util.DataSets;
-
-import javax.visrec.ml.ClassifierCreationException;
-import javax.visrec.ml.classification.BinaryClassifier;
-import javax.visrec.ml.classification.NeuralNetBinaryClassifier;
 import javax.visrec.spi.BinaryClassifierFactory;
 import java.io.IOException;
 
@@ -41,7 +41,7 @@ public class FloatArrayBinaryClassifierFactory implements BinaryClassifierFactor
 
         TabularDataSet<MLDataItem> trainingSet = null;
         try {
-            trainingSet = DataSets.readCsv(block.getTrainingFile(), block.getInputsNum(), 1, true, ",");
+            trainingSet = DataSets.readCsv(block.getTrainingPath().toFile(), block.getInputsNum(), 1, true, ",");
             deepnetts.data.DataSets.normalizeMax(trainingSet);
         } catch (IOException e) {
             throw new ClassifierCreationException("Failed to create training set based on training file", e);

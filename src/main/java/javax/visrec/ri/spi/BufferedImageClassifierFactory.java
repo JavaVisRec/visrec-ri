@@ -7,7 +7,7 @@ import deepnetts.net.train.opt.OptimizerType;
 import deepnetts.util.DeepNettsException;
 import deepnetts.util.FileIO;
 
-import javax.visrec.ml.ClassifierCreationException;
+import javax.visrec.ml.classification.ClassifierCreationException;
 import javax.visrec.ml.classification.ImageClassifier;
 import javax.visrec.ml.classification.NeuralNetImageClassifier;
 import javax.visrec.ri.ml.classification.ImageClassifierNetwork;
@@ -50,9 +50,9 @@ public class BufferedImageClassifierFactory implements ImageClassifierFactory<Bu
         ImageSet imageSet = new ImageSet(block.getImageWidth(), block.getImageHeight());
         LOGGER.info("Loading images...");
 
-        imageSet.loadLabels(block.getLabelsFile());
+        imageSet.loadLabels(block.getLabelsPath().toFile());
         try {
-            imageSet.loadImages(block.getTrainingFile());
+            imageSet.loadImages(block.getTrainingPath().toFile());
             imageSet.shuffle();
         } catch (DeepNettsException | FileNotFoundException ex) {
             throw new ClassifierCreationException("Failed to load images from dataset", ex);
@@ -63,7 +63,7 @@ public class BufferedImageClassifierFactory implements ImageClassifierFactory<Bu
 
         ConvolutionalNetwork neuralNet = null;
         try {
-            neuralNet = (ConvolutionalNetwork) FileIO.createFromJson(block.getNetworkArchitecture());
+            neuralNet = (ConvolutionalNetwork) FileIO.createFromJson(block.getNetworkArchitecture().toFile());
             neuralNet.setOutputLabels(imageSet.getTargetNames());
         } catch (IOException ex) {
             throw new ClassifierCreationException("Failed to create convolutional network from JSON file", ex);

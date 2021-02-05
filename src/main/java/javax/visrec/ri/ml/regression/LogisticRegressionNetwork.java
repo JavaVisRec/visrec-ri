@@ -7,6 +7,7 @@ import deepnetts.net.loss.LossType;
 import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.util.Tensor;
 
+import javax.visrec.ml.classification.LogisticRegression;
 import javax.visrec.ml.data.DataSet;
 import javax.visrec.ml.regression.LogisticRegression;
 
