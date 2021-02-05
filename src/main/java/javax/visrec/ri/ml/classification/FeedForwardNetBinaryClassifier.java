@@ -11,6 +11,7 @@ import javax.visrec.ml.model.ModelProvider;
 public class FeedForwardNetBinaryClassifier implements ModelProvider<FeedForwardNetwork>, NeuralNetBinaryClassifier<float[]> {
 
     private final FeedForwardNetwork model;
+    private float threshold;    
 
     public FeedForwardNetBinaryClassifier(FeedForwardNetwork model) {
         this.model = model;
@@ -30,5 +31,15 @@ public class FeedForwardNetBinaryClassifier implements ModelProvider<FeedForward
         model.setInput(inputs);
         return model.getOutput()[0];
     }
+
+    public float getThreshold() {
+        return threshold;
+    }
+
+    public void setThreshold(float threshold) {
+        this.threshold = threshold;
+    }
+    
+    
 
 }

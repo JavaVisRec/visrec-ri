@@ -88,6 +88,9 @@ public class BufferedImageClassifierFactory implements ImageClassifierFactory<Bu
         } catch (IOException ex) {
             throw new ModelCreationException("Failed to write trained model to file", ex);
         }
+        
+        imageClassifier.setThreshold(block.getThreshold());
+        
         return imageClassifier;
     }
 }

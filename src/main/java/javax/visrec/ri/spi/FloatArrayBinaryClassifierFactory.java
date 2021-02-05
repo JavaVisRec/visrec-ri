@@ -47,6 +47,9 @@ public class FloatArrayBinaryClassifierFactory implements BinaryClassifierFactor
             throw new ModelCreationException("Failed to create training set based on training file", e);
         }
         ffn.train(trainingSet);
-        return new FeedForwardNetBinaryClassifier(ffn);
+        FeedForwardNetBinaryClassifier ffnbc = new FeedForwardNetBinaryClassifier(ffn);
+        ffnbc.setThreshold(block.getThreshold());
+        
+        return ffnbc;
     }
 }
