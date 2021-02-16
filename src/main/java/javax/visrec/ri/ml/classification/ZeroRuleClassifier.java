@@ -3,29 +3,27 @@ package javax.visrec.ri.ml.classification;
 import deepnetts.data.MLDataItem;
 import java.util.Map;
 import javax.visrec.ml.classification.Classifier;
+import javax.visrec.ml.data.BasicDataSet;
 import javax.visrec.ml.data.DataSet;
 
 
 /**
  * Zero rule classifier always returns as a result the most frequent class from the data set.
  * It is used for benchmarking purposes: if a model performs worse than that, then it is useless.
- * 
  */
-public class ZeroRuleClassifier<T, R> implements Classifier<T, Map<String, Float>> {
+public class ZeroRuleClassifier<T, R> implements Classifier<T, Map<R, Float>> {
 
-    String mostFrequentClass;
+    R mostFrequentClass;
     
     @Override
-    public Map<String, Float> classify(T input) {
+    public Map<R, Float> classify(T input) {
         return Map.of(mostFrequentClass, 1.0f);
     }
     
-    // TODO: Add builder
-    // builder chould simply cont the occurance of all possible classes in the data set
-
     public static ZeroRuleClassifierBuilder builder() {
         return new ZeroRuleClassifierBuilder();
     }
+    
 
     public static class ZeroRuleClassifierBuilder<T> {
         ZeroRuleClassifier buildingBlock;
@@ -36,31 +34,22 @@ public class ZeroRuleClassifier<T, R> implements Classifier<T, Map<String, Float
         }
         
         public ZeroRuleClassifierBuilder trainingSet(DataSet<MLDataItem> dataSet) {
-            int[] classCount = new int[dataSet.get(0).getTargetOutput().size()]; // dataSet.getTargetNames().length
+            int[] targetClassCount = new int[dataSet.get(0).getTargetOutput().size()]; // dataSet.getTargetNames().length
+            // iterate entire data set
             for(MLDataItem ml : dataSet.getItems()) {
-                float[] cols = ml.getTargetOutput().getValues();
+                float[] cols = ml.getTargetOutput().getValues(); // get output/target columns
                 for(int i=0; i<cols.length; i++) {
-                    if (cols[i]==1) classCount[i]++;
+                    if (cols[i]==1) targetClassCount[i]++; // assume they are one hot encoded
                 }
             }
             
-            int maxIdx = indexOfMax(classCount);
-            //ZeroRuleClassifier.this.mostFrequentClass =  dataSet.getTargetNames()[maxIdx];
-            // uzmo koa je to klasa
-
-            // count occurancies of each class
-            // how to know which attibutes are classes. are thay targets? golumns MLDataSetItem
-            // napravi ovde brojac
+            // get index of class with max frequencey (occurance)
+            int maxIdx = indexOfMax(targetClassCount);
             
-                // kako da izbrojim klase sa obektm o 
-                // moram da znam tip elemenata u dat asetu - ali ovaj korisiti deep netts implemetaciju?            
-              //dataSet.getTargetNames();
-              //dataSet.getColumnNames();
-          //    dataSet.getTargetColumns();
-          //    dataSet.columnAt(4).setAsTarget(true);
-              //dataSet.setTargetColumns(4, 5, 6);
-              // cognitive load of a programming line - nuber of concept, understandability
-                    
+            // get actual class (for Deep Netts it's a String)
+            String mostFrequentClazz = ((BasicDataSet)dataSet).getTargetColumnsNames()[maxIdx];
+            buildingBlock.mostFrequentClass = mostFrequentClazz;
+                               
             return this;
         }
 
