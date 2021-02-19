@@ -11,7 +11,6 @@ import java.nio.file.Path;
 /**
  * {@link ImageFactory} to provide {@link BufferedImage} as return object.
  *
- * @author Kevin Berendsen
  */
 public class BufferedImageFactory implements ImageFactory<BufferedImage> {
 

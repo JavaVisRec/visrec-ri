@@ -24,7 +24,6 @@ import javax.visrec.ml.classification.ImageClassifier;
  *
  * @param <IMAGE_CLASS> class to classify
  * @param <MODEL_CLASS> class of machine learning model
- * @author Zoran Sevarac
  * @since 1.0
  */
 public abstract class AbstractImageClassifier<IMAGE_CLASS, MODEL_CLASS> implements ImageClassifier<IMAGE_CLASS>, ModelProvider<MODEL_CLASS> {

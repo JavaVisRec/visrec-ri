@@ -13,7 +13,6 @@ import java.util.Optional;
 /**
  * Default implementation of {@link ImageFactoryService} which serves the implementations of {@link ImageFactory}.
  *
- * @author Kevin Berendsen
  */
 public final class DefaultImageFactoryService implements ImageFactoryService {
 

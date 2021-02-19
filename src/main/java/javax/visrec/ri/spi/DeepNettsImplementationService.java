@@ -4,7 +4,6 @@ import javax.visrec.spi.ImplementationService;
 
 /**
  * DeepNetts' {@link ImplementationService}
- * @author Kevin Berendsen
  */
 public class DeepNettsImplementationService extends ImplementationService {
 

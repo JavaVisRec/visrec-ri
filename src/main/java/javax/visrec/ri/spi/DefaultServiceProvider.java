@@ -7,7 +7,6 @@ import javax.visrec.spi.ServiceProvider;
 /**
  * Default {@link ServiceProvider} of the implementation of the visual recognition API
  *
- * @author Kevin Berendsen
  */
 public final class DefaultServiceProvider extends ServiceProvider {
 

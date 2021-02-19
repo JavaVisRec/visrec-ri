@@ -8,14 +8,12 @@ import deepnetts.net.train.BackpropagationTrainer;
 import deepnetts.util.Tensor;
 
 import javax.visrec.ml.regression.SimpleLinearRegression;
-import java.util.Map;
 import javax.visrec.ml.data.DataSet;
 
 /**
  * Simple linear regression implemented Feed Forward Neural Network as a back-end.
  * 
  * @see SimpleLinearRegression
- * @author Zoran Sevarac
  */
 public class SimpleLinearRegressionNetwork extends SimpleLinearRegression<FeedForwardNetwork> {
 

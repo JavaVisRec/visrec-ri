@@ -11,7 +11,6 @@ import java.util.Map;
 /**
  * A simple object detector
  *
- * @author Zoran Sevarac
  */
 public class SimpleObjectDetector extends AbstractObjectDetector {
 
