@@ -6,7 +6,7 @@
 
     <groupId>javax.visrec</groupId>
     <artifactId>visrec-ri</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,13 +18,13 @@
         <dependency>
             <groupId>javax.visrec</groupId>
             <artifactId>visrec-api</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.4-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.deepnetts</groupId>
             <artifactId>deepnetts-core</artifactId>
-            <version>1.13.0</version>
+            <version>1.13.1-SNAPSHOT</version>
         </dependency>
 
         <!-- Test dependencies -->
@@ -151,12 +151,12 @@
                     <doclint>none</doclint>  <!-- Disable ASAP -->
                 </configuration>
                 <executions>
-                    <execution>
+                    <!-- execution>
                         <id>attach-javadoc</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
-                    </execution>
+                    </execution -->
                 </executions>
             </plugin>
 
