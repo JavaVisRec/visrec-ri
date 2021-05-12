@@ -18,13 +18,19 @@
         <dependency>
             <groupId>javax.visrec</groupId>
             <artifactId>visrec-api</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.deepnetts</groupId>
             <artifactId>deepnetts-core</artifactId>
             <version>1.13.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.visrec</groupId>
+                    <artifactId>visrec-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- Test dependencies -->
@@ -151,12 +157,12 @@
                     <doclint>none</doclint>  <!-- Disable ASAP -->
                 </configuration>
                 <executions>
-                    <execution>
+                    <!-- execution>
                         <id>attach-javadoc</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
-                    </execution>
+                    </execution -->
                 </executions>
             </plugin>
 
