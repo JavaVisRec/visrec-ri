@@ -1,6 +1,8 @@
 package javax.visrec.ri.ml.classification;
 
 import javax.visrec.ImageFactory;
+import javax.visrec.ml.classification.ClassificationException;
+import javax.visrec.ml.classification.ImageClassifier;
 import javax.visrec.ml.model.ModelProvider;
 import javax.visrec.spi.ServiceProvider;
 import java.awt.image.BufferedImage;
@@ -10,8 +12,6 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import javax.visrec.ml.classification.ClassificationException;
-import javax.visrec.ml.classification.ImageClassifier;
 
 /**
  * Skeleton abstract class to make it easier to implement image classifier.
@@ -67,7 +67,7 @@ public abstract class AbstractImageClassifier<IMAGE_CLASS, MODEL_CLASS> implemen
             image = imageFactory.getImage(inputStream);
             return classify(image);
         } catch (IOException e) {
-            throw new RuntimeException("Failed to transform input into a BufferedImage", e);
+            throw new ClassificationException("Failed to transform input into a BufferedImage", e);
         }
     }
 
