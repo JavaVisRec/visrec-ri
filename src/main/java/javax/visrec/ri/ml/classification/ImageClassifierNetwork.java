@@ -10,7 +10,6 @@ import java.util.Map;
 /**
  * Implementation of abstract image classifier for BufferedImage-s using
  * Convolutional network form Deep Netts.
- *
  */
 public class ImageClassifierNetwork extends AbstractImageClassifier<BufferedImage, ConvolutionalNetwork> {
 
