@@ -1,6 +1,7 @@
 package javax.visrec.ri.ml.classification;
 
 import deepnetts.data.MLDataItem;
+import java.util.HashMap;
 import java.util.Map;
 import javax.visrec.ml.classification.Classifier;
 import javax.visrec.ml.data.BasicDataSet;
@@ -17,7 +18,9 @@ public class ZeroRuleClassifier<T, R> implements Classifier<T, Map<R, Float>> {
     
     @Override
     public Map<R, Float> classify(T input) {
-        return Map.of(mostFrequentClass, 1.0f);
+        Map<R, Float> map = new HashMap<>(); 
+        map.put(mostFrequentClass, 1.0f);
+        return map;
     }
     
     public static ZeroRuleClassifierBuilder builder() {

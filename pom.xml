@@ -6,7 +6,7 @@
 
     <groupId>javax.visrec</groupId>
     <artifactId>visrec-ri</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.3</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -74,8 +74,8 @@
 
     <licenses>
         <license>
-            <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <name>GNU General Public License, version 2, with Classpath Exception</name>
+            <url>https://www.gnu.org/licenses/old-licenses/gpl-2.0.html</url>
         </license>
     </licenses>
 
@@ -155,14 +155,16 @@
                 <configuration>
                     <linksource>true</linksource>
                     <doclint>none</doclint>  <!-- Disable ASAP -->
+                    <source>8</source>
+                    <detectJavaApiLink>false</detectJavaApiLink>                    
                 </configuration>
                 <executions>
-                    <!-- execution>
+                    <execution>
                         <id>attach-javadoc</id>
                         <goals>
                             <goal>jar</goal>
                         </goals>
-                    </execution -->
+                    </execution>
                 </executions>
             </plugin>
 
